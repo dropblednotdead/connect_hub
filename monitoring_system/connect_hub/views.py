@@ -46,6 +46,8 @@ class ConnectionAPIView(APIView):
         if self.request.method.lower() == 'patch':
             return [permissions.IsAuthenticated(), IsGridCompany()]
         return super().get_permissions()
+
+    
     def get_queryset(self, request):
         base_queryset = Connection.objects.all()
 
@@ -75,12 +77,12 @@ class ConnectionAPIView(APIView):
     def patch(self, request, *args, **kwargs):
         pk = kwargs.get("pk", None)
         if not pk:
-            return Response({'error': 'Метод put не определен'})
+            return Response({'error': 'Метод patch не определен'})
 
         try:
             instance = Connection.objects.get(pk=pk)
         except:
-            return Response({'error': 'Метод put не определен'})
+            return Response({'error': 'Метод patch не определен'})
 
         serializer = ConnectionSerializer(data=request.data, instance=instance, context={'request': request})
         serializer.is_valid(raise_exception=True)

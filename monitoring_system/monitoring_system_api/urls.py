@@ -19,15 +19,6 @@ from django.urls import path, include
 from connect_hub import views
 
 urlpatterns = [
-    path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth/', include('djoser.urls.authtoken')),
-
-    path('api/v1/contacts/', views.ContactsListAPIView.as_view()),
-    path('api/v1/restoration/', views.RestorationRequestCreateView.as_view()),
-    path('api/v1/pole_links/', views.PoleLinkListAPIView.as_view()),
-    path('api/v1/poles/', views.PoleAPIVIew.as_view()),
-    path('api/v1/poles/<int:pk>/', views.PoleAPIVIew.as_view()),
-    path('api/v1/connection/', views.ConnectionAPIView.as_view()),
-    path('api/v1/connection/<int:pk>/', views.ConnectionAPIView.as_view()),
+    path('api/v1/', include('connect_hub.urls')),
     path('admin/', admin.site.urls),
 ]
