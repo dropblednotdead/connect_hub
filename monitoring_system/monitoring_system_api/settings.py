@@ -139,3 +139,11 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'connect_hub.serializers.CustomUserSerializer',
+        'current_user': 'connect_hub.serializers.CustomUserSerializer',
+    }
+}

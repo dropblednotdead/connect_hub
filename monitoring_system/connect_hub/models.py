@@ -14,8 +14,6 @@ class Connection(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(blank=True, null=True, verbose_name='Дата изменения')
     provider = models.ForeignKey('Organization', models.DO_NOTHING, db_column='provider', verbose_name='Провайдер')
-    pole_a_answer = models.BooleanField(blank=True, null=True, verbose_name='Ответ по первой опоре')
-    pole_b_answer = models.BooleanField(blank=True,null=True, verbose_name='Ответ по второй опоре')
     status = models.ForeignKey('Status', models.DO_NOTHING, db_column='status', verbose_name='Статус')
 
     class Meta:
@@ -33,8 +31,6 @@ class ConnectionHistory(models.Model):
     id = models.BigAutoField(primary_key=True)
     date = models.DateTimeField(verbose_name='Дата')
     user = models.ForeignKey('UserInformation', models.DO_NOTHING, db_column='user', verbose_name='Пользователь')
-    pole_a_answer = models.BooleanField(blank=True, null=True, verbose_name='Ответ по первой опоре')
-    pole_b_answer = models.BooleanField(blank=True, null=True, verbose_name='Ответ по второй опоре')
     status = models.ForeignKey('Status', models.DO_NOTHING, db_column='status', verbose_name='Статус')
     connection = models.ForeignKey('Connection', models.DO_NOTHING, db_column='connection', verbose_name='Подключение')
 
@@ -93,6 +89,9 @@ class Pole(models.Model):
 
 class ConnectionLinks(models.Model):
     id = models.BigAutoField(primary_key=True)
+    status = models.ForeignKey('Status', models.DO_NOTHING, blank=True, null=True, db_column='status', verbose_name='Статус')
+    pole_a_answer = models.BooleanField(blank=True, null=True, verbose_name='Ответ по первой опоре')
+    pole_b_answer = models.BooleanField(blank=True, null=True, verbose_name='Ответ по второй опоре')
     connection = models.ForeignKey('Connection', models.DO_NOTHING, db_column='connection',related_name='connection_links', verbose_name='Подключение')
     pole_link = models.ForeignKey('PoleLink', models.DO_NOTHING, db_column='pole_link', related_name='connection_links', verbose_name='Связь опор')
 

@@ -27,8 +27,8 @@ class ConnectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Connection
-        fields = ['id', 'created_at', 'updated_at', 'provider', 'status', 'pole_links', 'pole_a_answer', 'pole_b_answer']
-        read_only_fields = ['provider', 'status', 'created_at', 'updated_at']
+        fields = ['id', 'created_at', 'updated_at', 'provider', 'status', 'pole_links']
+        read_only_fields = ['provider', 'status', 'created_at', 'updated_at', 'status']
 
     def create(self, validated_data):
         pole_link_ids = validated_data.pop('pole_links')
@@ -46,7 +46,8 @@ class ConnectionSerializer(serializers.ModelSerializer):
         for pole_link_id in pole_link_ids:
             ConnectionLinks.objects.create(
                 connection=connection,
-                pole_link=PoleLink.objects.get(pk=pole_link_id)
+                pole_link=PoleLink.objects.get(pk=pole_link_id),
+                status=Status.objects.get(pk=1)
             )
 
         return connection
@@ -82,3 +83,47 @@ class PoleLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = PoleLink
         fields = '__all__'
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = "__all__"
+
+
+class UserInformationSerializer(serializers.ModelSerializer):
+    organization = OrganizationSerializer(read_only=True)
+
+    class Meta:
+        model = UserInformation
+        fields = ['surname', 'name', 'phone_num', 'type', 'accept_status', 'organization']
+        read_only_fields = ['surname', 'name', 'phone_num', 'type', 'accept_status', 'organization']
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    user_info = UserInformationSerializer(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'user_info']
+
+
+class ConnectionLinksSerializer(serializers.ModelSerializer):
+    connection = ConnectionSerializer(read_only=True)
+
+    class Meta:
+        model = ConnectionLinks
+        fields = ['id', 'connection', 'pole_link', 'pole_a_answer', 'pole_b_answer', 'status']
+        read_only_fields = ['id', 'connection', 'pole_link']
+
+    def create(self, validated_data):
+        connection_link = ConnectionLinks(**validated_data)
+        connection_link._current_user = self.context['request'].user.user_info
+        connection_link.save()
+
+        return connection_link
+
+    def update(self, instance, validated_data):
+        instance._current_user = self.context['request'].user.user_info
+        connection = super().update(instance, validated_data)
+        return connection

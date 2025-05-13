@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.utils import timezone
 from djoser.signals import user_registered
 from django.dispatch import receiver
-from .models import UserInformation, Organization, Connection, ConnectionHistory, Status
+from .models import UserInformation, Organization, Connection, ConnectionHistory, Status, ConnectionLinks
 from django.contrib.auth.models import User
 
 
@@ -32,15 +32,14 @@ def create_connection_history(sender, instance, created, **kwargs):
 
     ConnectionHistory.objects.create(
         connection=instance,
-        pole_a_answer=instance.pole_a_answer,
-        pole_b_answer=instance.pole_b_answer,
         status=instance.status,
         date=timezone.now(),
         user=user
     )
 
-@receiver(post_save, sender=Connection)
-def update_connection_status(sender, instance, **kwargs):
+
+@receiver(post_save, sender=ConnectionLinks)
+def create_connection_link(sender, instance, **kwargs):
     new_status = instance.status
     if instance.pole_a_answer is False or instance.pole_b_answer is False:
         new_status = Status.objects.get(name='отклонено')
@@ -50,3 +49,22 @@ def update_connection_status(sender, instance, **kwargs):
     if instance.status != new_status:
         instance.status = new_status
         instance.save(update_fields=['status'])
+
+
+@receiver(post_save, sender=ConnectionLinks)
+def update_connection_status(sender, instance, created, **kwargs):
+    if created:
+        return
+    connection = Connection.objects.filter(connection_links=instance).first()
+    if not connection:
+        print('подключение не нашлось')
+    new_status = connection.status
+    if ConnectionLinks.objects.filter(connection=connection).count() == ConnectionLinks.objects.filter(connection=connection, status__name='одобрено').count():
+        new_status = Status.objects.get(name='одобрено')
+    elif ConnectionLinks.objects.filter(connection=connection, status__name='отклонено').exists():
+        new_status = Status.objects.get(name='отклонено')
+
+    if connection.status != new_status:
+        connection.status = new_status
+        connection._current_user = instance._current_user if hasattr(instance, '_current_user') else None
+        connection.save(update_fields=['status'])

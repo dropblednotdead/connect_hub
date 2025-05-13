@@ -9,12 +9,12 @@ class UserInformationAdmin(admin.ModelAdmin):
 
 
 class ConnectionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'created_at', 'updated_at', 'provider', 'pole_a_answer', 'pole_b_answer', 'status')
+    list_display = ('id', 'created_at', 'updated_at', 'provider', 'status')
     search_fields = ('provider', 'status')
 
 
 class ConnectionHistoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'date', 'user', 'pole_a_answer', 'pole_b_answer', 'status', 'connection')
+    list_display = ('id', 'date', 'user', 'connection', 'status')
     search_fields = ('user', 'status')
 
 
@@ -29,8 +29,8 @@ class PoleAdmin(admin.ModelAdmin):
 
 
 class ConnectionLinksAdmin(admin.ModelAdmin):
-    list_display = ('id', 'connection', 'pole_link')
-    search_fields = ('connection', 'pole_link')
+    list_display = ('id', 'connection', 'pole_link', 'pole_a_answer', 'pole_b_answer', 'status')
+    search_fields = ('connection', 'pole_link', 'status')
 
 
 class PoleLinkAdmin(admin.ModelAdmin):
