@@ -40,7 +40,7 @@ class PoleAPIVIew(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retriev
 
 
 class ConnectionAPIView(APIView):
-    permission_classes = [IsAuthenticatedAndAccepted]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_permissions(self):
         if self.request.method.lower() == 'post':
@@ -82,20 +82,20 @@ class ConnectionAPIView(APIView):
 
         return Response({'new_connection': serializer.data})
 
-    # def patch(self, request, *args, **kwargs):
-    #     pk = kwargs.get("pk", None)
-    #     if not pk:
-    #         return Response({'error': 'Метод patch не определен'})
-    #
-    #     try:
-    #         instance = Connection.objects.get(pk=pk)
-    #     except:
-    #         return Response({'error': 'Метод patch не определен'})
-    #
-    #     serializer = ConnectionSerializer(data=request.data, instance=instance, context={'request': request})
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response({'connections': serializer.data})
+    def patch(self, request, *args, **kwargs):
+         pk = kwargs.get("pk", None)
+         if not pk:
+            return Response({'error': 'Метод patch не определен'})
+
+         try:
+             instance = Connection.objects.get(pk=pk)
+         except:
+             return Response({'error': 'Метод patch не определен'})
+
+         serializer = ConnectionSerializer(data=request.data, instance=instance, context={'request': request})
+         serializer.is_valid(raise_exception=True)
+         serializer.save()
+         return Response({'connections': serializer.data})
 
 
 class ConnectionLinksAPIView(APIView):
@@ -145,3 +145,13 @@ class ConnectionLinksAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'connections': serializer.data})
+
+class OrganizationListAPIView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericAPIView):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+
+    def get(self, request, *args, **kwargs):
+        if not self.kwargs.get('pk'):
+            return self.list(request, *args, **kwargs)
+        else:
+            return self.retrieve(request, *args, **kwargs)

@@ -11,4 +11,6 @@ urlpatterns = [
     path('connection/<int:pk>/', views.ConnectionAPIView.as_view()),
     path('connection_links/', views.ConnectionLinksAPIView.as_view()),
     path('connection_links/<int:pk>/', views.ConnectionLinksAPIView.as_view()),
+    path('organizations/', views.OrganizationListAPIView.as_view()),
+    path('organizations/<int:pk>/', views.OrganizationListAPIView.as_view()),
 ]

@@ -105,7 +105,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'user_info']
+        fields = ['id', 'username', 'email', 'is_superuser', 'user_info']
 
 
 class ConnectionLinksSerializer(serializers.ModelSerializer):
