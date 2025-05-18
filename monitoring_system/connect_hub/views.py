@@ -1,12 +1,18 @@
 from django.db.models import Q
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
+from rest_framework.pagination import PageNumberPagination
 
 from connect_hub.permissions import IsOwnerOrReadOnly, IsGridCompany, IsAuthenticatedAndAccepted, IsProvider
 from connect_hub.serializers import *
 from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins, permissions
 from rest_framework.response import Response
+
+
+class PolesAPIViewPagination(PageNumberPagination):
+    page_size_query_param = 'size'
+    max_page_size = 100
 
 
 class ContactsListAPIView(generics.ListAPIView):
@@ -28,6 +34,7 @@ class PoleAPIVIew(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retriev
     permission_classes = (IsOwnerOrReadOnly,)
     queryset = Pole.objects.all()
     serializer_class = PoleSerializer
+    pagination_class = PolesAPIViewPagination
 
     def get(self, request, *args, **kwargs):
         if not self.kwargs.get('pk'):
