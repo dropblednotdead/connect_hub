@@ -63,3 +63,6 @@ admin.site.register(PoleLink, PoleLinkAdmin)
 admin.site.register(Status, StatusAdmin)
 admin.site.register(Contacts, ContactsAdmin)
 admin.site.register(RestorationRequest, RestorationRequestAdmin)
+
+admin.site.site_header = 'CONNECT HUB'
+admin.site.site_title = 'CONNECT HUB'

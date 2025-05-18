@@ -1,0 +1,60 @@
+#header, .module caption {
+    background: #832590;
+}
+a {
+    color: black;
+}
+
+body {
+    font-family: 'Cygre', 'Actay Wide', sans-serif;
+}
+
+/* Панель заголовка */
+#header {
+    background-color: #832590 !important;
+    color: #FFF !important;
+    border-bottom: none;
+}
+
+/* Название сайта */
+#site-name a {
+    color: #FFF !important;
+    font-family: 'Actay Wide', sans-serif;
+    font-size: 24px;
+}
+
+/* Панель навигации (левая) */
+#nav-sidebar {
+    color: #ADADAD;
+}
+
+#nav-sidebar a {
+    color: #ADADAD !important;
+}
+
+#nav-sidebar a:hover {
+    background-color: #832590 !important;
+    color: #FFF !important;
+}
+
+/* Таблицы и блоки */
+.module, .module table {
+    border-color: #832590;
+}
+
+.module h2 {
+    color: #832590;
+    border-bottom: 1px solid #832590;
+}
+
+/* Кнопки */
+
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background-color: #a344b6 !important;
+}
+
+/* Форма входа */
+.login .form-row input {
+    border: 1px solid #832590;
+}

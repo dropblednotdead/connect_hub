@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'monitoring_system_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,3 +147,8 @@ DJOSER = {
         'current_user': 'connect_hub.serializers.CustomUserSerializer',
     }
 }
+
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = []
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
