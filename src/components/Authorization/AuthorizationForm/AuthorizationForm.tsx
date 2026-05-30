@@ -126,6 +126,7 @@ const AuthorizationForm = () => {
 								borderBottom: '1px solid',
 								borderColor: theme.palette.secondary.main,
 								paddingBottom: '0.1px',
+								fontWeight: 'bold',
 							}}
 						>
 							Восстановить
@@ -134,7 +135,7 @@ const AuthorizationForm = () => {
 
 					{/* Кнопка отправки функции */}
 					<CustomButton
-						sx={{ width: { xs: '100%', md: '50%' }, mt: 8, mb: 1 }}
+						sx={{ width: '100%', mt: 8, mb: 1 }}
 						type='submit'
 						disabled={isSubmitting}
 					>
@@ -146,7 +147,7 @@ const AuthorizationForm = () => {
 					<Box
 						sx={{
 							display: 'flex',
-							justifyContent: { xs: 'center', md: 'start' },
+							justifyContent: 'center',
 							alignItems: 'center',
 						}}
 					>
@@ -156,6 +157,7 @@ const AuthorizationForm = () => {
 							style={{
 								marginLeft: '4px',
 								color: theme.palette.primary.main,
+								fontWeight: 'bold',
 							}}
 						>
 							Зарегистрироваться

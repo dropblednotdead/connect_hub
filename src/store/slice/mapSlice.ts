@@ -8,6 +8,7 @@ interface State {
 	connectionLinks: IConnectionLink[]
 	pageSize: number
 	page: number
+	focusedPillarCoords: [number, number] | null
 }
 
 // Объект состояния
@@ -17,6 +18,7 @@ const initialState: State = {
 	connectionLinks: [],
 	pageSize: 3,
 	page: 1,
+	focusedPillarCoords: null,
 }
 
 // Шаблон из Redux Toolkit Query для создания хранилища с состоянием а также функциями
@@ -37,6 +39,15 @@ export const mapSlice = createSlice({
 		addPillar(state, action: PayloadAction<IPillar>) {
 			state.pillars.push(action.payload)
 		},
+		updatePillar(state, action: PayloadAction<IPillar>) {
+			const index = state.pillars.findIndex(p => p.id === action.payload.id)
+			if (index !== -1) {
+				state.pillars[index] = action.payload
+			}
+		},
+		removePillar(state, action: PayloadAction<number>) {
+			state.pillars = state.pillars.filter(p => p.id !== action.payload)
+		},
 		setPillarLinks(state, action: PayloadAction<IPillarLink[]>) {
 			state.pillarLinks = action.payload
 		},
@@ -49,6 +60,9 @@ export const mapSlice = createSlice({
 		setPage(state, action: PayloadAction<number>) {
 			state.page = action.payload
 		},
+		setFocusedPillarCoords(state, action: PayloadAction<[number, number] | null>) {
+			state.focusedPillarCoords = action.payload
+		},
 	},
 })
 
@@ -57,8 +71,11 @@ export const {
 	setPillars,
 	addPillars,
 	addPillar,
+	updatePillar,
+	removePillar,
 	setPillarLinks,
 	setConnectionLinks,
 	addConnectionLinks,
+	setFocusedPillarCoords,
 } = mapSlice.actions
 export default mapSlice.reducer

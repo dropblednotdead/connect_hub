@@ -65,18 +65,18 @@ const RecoverForm = () => {
 
 					{/* Кнопка отправки запроса */}
 					<CustomButton
-						sx={{ width: { xs: '100%', md: '50%' }, mt: 8, mb: 1 }}
+						sx={{ width: '100%', mt: 8, mb: 1 }}
 						type='submit'
 						disabled={isSubmitting}
 					>
-						Запросить логин и пароль
+						ВОССТАНОВИТЬ
 					</CustomButton>
 
 					{/* Блок с переходом на страницу регистрации */}
 					<Box
 						sx={{
 							display: 'flex',
-							justifyContent: { xs: 'center', md: 'start' },
+							justifyContent: 'center',
 							alignItems: 'center',
 						}}
 					>
@@ -86,6 +86,7 @@ const RecoverForm = () => {
 							style={{
 								marginLeft: '4px',
 								color: theme.palette.primary.main,
+								fontWeight: 'bold',
 							}}
 						>
 							Зарегистрироваться

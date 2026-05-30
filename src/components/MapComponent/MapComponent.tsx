@@ -6,7 +6,7 @@ import { IConnectionLink, IPillar, IPillarLink } from '../../interfaces/mapInter
 import { useAppDispatch, useAppSelector } from '../../hooks/react-redux'
 import { createGeometryPolyline } from '../../helpers/createGeometryPolyline'
 import { TypeOrganization } from '../../interfaces/usersInterfaces'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MapButtons from './MapButtons/MapButtons'
 import { placemarkOptions } from '../../helpers/placemarkOptions'
 import { polylineOptions } from '../../helpers/polylineOptions'
@@ -42,6 +42,15 @@ const MapComponent = ({
 	// Вызываем функцию из библиотеки Redux Toolkit Query, которая делает запрос за получением организаций.
 	// В качестве ответа мы получаем флаг загрузки данных и данные
 	const { data, isLoading } = useGetOrganizationsQuery()
+
+	const mapRef = useRef<any>(null)
+	const focusedPillarCoords = useAppSelector(state => state.mapSlice.focusedPillarCoords)
+
+	useEffect(() => {
+		if (mapRef.current && focusedPillarCoords) {
+			mapRef.current.setCenter(focusedPillarCoords, 18, { checkZoomRange: true, duration: 1000 })
+		}
+	}, [focusedPillarCoords])
 
 	// Создаём локальное состояние c помощью хука из React - useState,
 	// которое будет содержать массив id выбранных линий
@@ -81,13 +90,21 @@ const MapComponent = ({
 		<>
 			<YMaps query={{ apikey: config.YANDEX_API_KEY }}>
 				<div
+					id="map-container"
 					style={{
 						width: '100%',
 						height: '500px',
 						margin: '30px 0px',
+						borderRadius: '20px',
+						overflow: 'hidden',
 					}}
 				>
 					<Map
+						instanceRef={ref => {
+							if (ref) {
+								mapRef.current = ref
+							}
+						}}
 						style={{ width: '100%', height: '100%' }}
 						defaultState={{ center: BASE_COORDINATES, zoom: 12 }}
 						onClick={(e: any) => {

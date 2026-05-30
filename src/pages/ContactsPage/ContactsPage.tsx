@@ -1,6 +1,7 @@
 import { Box, Grid2, Typography, useTheme } from '@mui/material'
 import DividerCustom from '../../components/ui/DividerCustom'
-import planetSVG from '../../assets/planet.svg'
+import leftPlanetPNG from '../../assets/left_planet.png'
+import rightPlanetPNG from '../../assets/right_planet.png'
 import styles from './styles.module.css'
 
 const ContactsPage = () => {
@@ -43,8 +44,11 @@ const ContactsPage = () => {
 				<Typography sx={{ mb: 2, fontSize: '18px' }}>connect-hub@info.comX-XX-XX</Typography>
 			</Grid2>
 
-			<Grid2 size={4}>
-				<img src={planetSVG} className={styles.planetImg} />
+			<Grid2 size={4} sx={{ position: 'relative' }}>
+				<Box sx={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: -1, pointerEvents: 'none', display: 'flex', height: { lg: '624px', md: '500px', xs: '300px' } }}>
+					<img src={leftPlanetPNG} style={{ display: 'block', height: '100%', width: 'auto' }} />
+					<img src={rightPlanetPNG} style={{ display: 'block', position: 'absolute', left: 'calc(100% + 15px)', top: 0, height: '100%', width: 'auto' }} />
+				</Box>
 			</Grid2>
 
 			<Grid2 size={12} sx={{ mt: 25 }}>

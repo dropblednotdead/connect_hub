@@ -322,18 +322,18 @@ const RegistrationForm = () => {
 
 						{/* Кнопка отправки функции */}
 						<CustomButton
-							sx={{ width: { xs: '100%', md: '50%' }, mt: 5, mb: 1 }}
+							sx={{ width: '100%', mt: 5, mb: 1 }}
 							type='submit'
 							disabled={isSubmitting}
 						>
-							Отправить
+							ЗАРЕГИСТРИРОВАТЬСЯ
 						</CustomButton>
 
 						{/* Блок с переходом на форму логина */}
 						<Box
 							sx={{
 								display: 'flex',
-								justifyContent: { xs: 'center', md: 'start' },
+								justifyContent: 'center',
 								alignItems: 'center',
 							}}
 						>
@@ -345,7 +345,7 @@ const RegistrationForm = () => {
 							>
 								Аккаунт создан?
 							</Typography>
-							<NavLink to='/login' style={{ marginLeft: '4px', color: theme.palette.primary.main }}>
+							<NavLink to='/login' style={{ marginLeft: '4px', color: theme.palette.primary.main, fontWeight: 'bold' }}>
 								Войти
 							</NavLink>
 						</Box>

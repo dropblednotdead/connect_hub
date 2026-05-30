@@ -179,7 +179,7 @@ const MapForm = ({ coords, onClose, ownerId, organizations }: Props) => {
 							width: '100%',
 							padding: '20px',
 							background: 'white',
-							color: 'black',
+							color: '#141414',
 							border: 'black solid 2px',
 							mt: 2,
 						}}

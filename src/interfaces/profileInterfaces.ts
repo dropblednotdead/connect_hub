@@ -14,5 +14,6 @@ export type ResponseSendConnection = { new_connection: IConnection }
 export type RequestApproveConnection = {
 	id: number
 	answer: 'pole_a_answer' | 'pole_b_answer'
+	status: boolean
 }
 export type ResponseApproveConnection = { connections: IConnection }

@@ -1,5 +1,6 @@
 import DividerCustom from '../../ui/DividerCustom'
 import { CustomButton } from '../../ui/Button'
+import { Typography, Box } from '@mui/material'
 import { useGetPillarsQuery } from '../../../api/mapApi'
 import { useAppDispatch, useAppSelector } from '../../../hooks/react-redux'
 import Supports from '../Supports/Supports'
@@ -13,6 +14,9 @@ const PillarsList = () => {
 
 	// Достаём столбы, линии, подключённые линии, из хранилища Redux Toolkit
 	const pillars = useAppSelector(state => state.mapSlice.pillars)
+	const ownerName = useAppSelector(state => state.userSlice.user?.user_info?.organization.name)
+	const type = useAppSelector(state => state.userSlice.user?.user_info?.type)
+	const pillarLinks = useAppSelector(state => state.mapSlice.pillarLinks)
 
 	const { data: dataPillars, isLoading: isLoadingPillars } = useGetPillarsQuery({ page, pageSize })
 
@@ -36,17 +40,45 @@ const PillarsList = () => {
 		}
 	}, [])
 
+	const getPillarConnectionsCount = (pillarId: number) => {
+		return pillarLinks.filter(pl => pl.pole_a.id === pillarId || pl.pole_b.id === pillarId).length
+	}
+
+	const displayedPillars = type === 'электросетевая компания' 
+		? pillars.filter(p => p.owner.name === ownerName) 
+		: type === 'магистральный провайдер'
+			? pillars.filter(p => getPillarConnectionsCount(p.id) < p.max_connections)
+			: pillars
+
 	return (
 		<section>
+			{type === 'электросетевая компания' && (
+				<>
+					<Typography variant='h3' sx={{ mb: 3, fontSize: { xs: '2rem', md: '36px' } }}>
+						ВАШИ ОПОРЫ
+					</Typography>
+					<DividerCustom />
+				</>
+			)}
+			{type === 'магистральный провайдер' && (
+				<>
+					<Typography variant='h3' sx={{ mb: 3, fontSize: { xs: '2rem', md: '36px' } }}>
+						РЕКОМЕНДУЕМЫЕ ОПОРЫ
+					</Typography>
+					<DividerCustom />
+				</>
+			)}
 			{/* Если загрузка столбов есть, то отрисовываем заголовок */}
 			{isLoadingPillars && <h1>Данные загружаются...</h1>}
 			{/* Иначе идём по массиву и отрисовываем наши столбы */}
 			{!isLoadingPillars &&
 				dataPillars &&
-				pillars.map((pillar, idx) => (
+				displayedPillars.map((pillar, idx) => (
 					<article key={`${pillar.id}-${idx}`}>
 						<Supports
 							key={`supports-${pillar.id}-${idx}`}
+							id={pillar.id}
+							pillar={pillar}
 							name={`${pillar.street}, ${pillar.building}${pillar.index || ''}`}
 							location={`${pillar.longitude} ${pillar.latitude}`}
 							max_connections={pillar.max_connections}
@@ -55,17 +87,21 @@ const PillarsList = () => {
 					</article>
 				))}
 			{!isLoadingPillars && dataPillars && (dataPillars as PaginatePillars).next && (
-				<CustomButton
-					onClick={() => dispatch(setPage(page + 1))}
-					sx={{
-						width: '100%',
-						padding: '25px 20px',
-						fontWeight: 'medium',
-						mt: { lg: 0, xs: 2 },
-					}}
-				>
-					ЗАГРУЗИТЬ ОПОРЫ
-				</CustomButton>
+				<Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%', mt: 2 }}>
+					<CustomButton
+						onClick={() => dispatch(setPage(page + 1))}
+						sx={{
+							width: { lg: '41.6%', xs: '100%' },
+							padding: '25px 20px',
+							fontWeight: 'medium',
+							mt: { lg: 0, xs: 2 },
+							borderRadius: '50px',
+							fontSize: '18px',
+						}}
+					>
+						ЗАГРУЗИТЬ ОПОРЫ
+					</CustomButton>
+				</Box>
 			)}
 		</section>
 	)

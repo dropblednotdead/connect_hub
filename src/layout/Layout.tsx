@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import { Box, Container } from '@mui/material'
 import Navigation from '../components/Navigation/Navigation'
@@ -12,12 +12,15 @@ import BurgerMenu from '../components/ui/BurgerNavigation'
 const Layout = () => {
 	// Получаем флаг инициализации приложения из хранилища Redux Toolkit
 	const isInitialized = useAppSelector(state => state.authSlice.isInitialized)
+	const isAuth = useAppSelector(state => state.authSlice.isAuth)
 
 	// Достаём специальную функцию из библиотеки React-Redux для обработки действий
 	const dispatch = useAppDispatch()
 
 	// Достаём функцию навигации из библиотеки React Router Dom
 	const navigate = useNavigate()
+	const location = useLocation()
+	const isMapPage = location.pathname === '/map' || location.pathname === '/requests' || location.pathname === '/profile' || (location.pathname === '/' && isAuth)
 
 	// Вызываем функцию из библиотеки Redux Toolkit Query, которая делает запрос на проверку того,
 	// авторизован ли пользователь.
@@ -70,6 +73,10 @@ const Layout = () => {
 					flexDirection: { xs: 'column', md: 'row' },
 					justifyContent: 'space-between',
 					alignItems: 'center',
+					backgroundColor: isMapPage ? '#F5F2F5' : 'transparent',
+					p: isMapPage ? 3 : 0,
+					borderRadius: isMapPage ? 3 : 0,
+					mb: isMapPage ? 2 : 0,
 				}}
 			>
 				<img src={logo} alt='logo' />

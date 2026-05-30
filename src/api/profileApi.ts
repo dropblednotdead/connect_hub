@@ -37,8 +37,8 @@ export const profileApi = createApi({
 					url: `connection_links/${body.id}/`,
 					method: 'PATCH',
 					data: {
-						...(body.answer === 'pole_a_answer' ? { pole_a_answer: true } : {}),
-						...(body.answer === 'pole_b_answer' ? { pole_b_answer: true } : {}),
+						...(body.answer === 'pole_a_answer' ? { pole_a_answer: body.status } : {}),
+						...(body.answer === 'pole_b_answer' ? { pole_b_answer: body.status } : {}),
 					},
 				}),
 			}

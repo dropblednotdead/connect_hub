@@ -3,6 +3,7 @@ import Title from '../../components/Main/Title/Title'
 import MapComponent from '../../components/MapComponent/MapComponent'
 import SubInformation from '../../components/MapComponent/SubInformation/SubInformation'
 import Footer from '../../components/Main/Footer/Footer'
+import { Box } from '@mui/material'
 import DividerCustom from '../../components/ui/DividerCustom'
 import { useAppDispatch, useAppSelector } from '../../hooks/react-redux'
 import {
@@ -61,29 +62,36 @@ const MapPage = () => {
 	// Title, SubInformation, Footer, DividerCustom - наши дочерние компоненты
 	return (
 		<>
-			<Title />
-			<Divider sx={{ mt: 3 }}></Divider>
-			<SubInformation />
-
+			{(type !== 'электросетевая компания' && type !== 'магистральный провайдер') && (
+				<>
+					<Title />
+					<Divider sx={{ mt: 3 }}></Divider>
+				</>
+			)}
 			{/* Если идёт загрузка линий или загрузка подключённых линий то отбражаем заголовок */}
 			{(isLoadingPillarLinks || isLoadingConnectionLinks) && <h1>Данные загружаются...</h1>}
 			{/* Иначе отрисовываем нашу карту */}
 			{!isLoadingPillarLinks && !isLoadingConnectionLinks && dataPillars && (
-				<MapComponent
-					pillars={dataPillars as IPillar[]}
-					pillarLinks={pillarLinks}
-					connectionLinks={connectionLinks}
-					type={type!}
-					refetchConnectionLinks={refetch}
-					refetchPillars={refetchPillars}
-				/>
+				<Box sx={{ backgroundColor: '#F5F2F5', p: 3, borderRadius: 3, mb: 4, mt: 4 }}>
+					<SubInformation type={type} />
+					<MapComponent
+						pillars={dataPillars as IPillar[]}
+						pillarLinks={pillarLinks}
+						connectionLinks={connectionLinks}
+						type={type!}
+						refetchConnectionLinks={refetch}
+						refetchPillars={refetchPillars}
+					/>
+				</Box>
 			)}
 
-			<DividerCustom />
+			<Box sx={{ backgroundColor: '#F5F2F5', py: { xs: 6, md: 10 }, px: { xs: 3, md: 8 }, borderRadius: 3, mb: 4 }}>
+				<PillarsList />
+			</Box>
 
-			<PillarsList />
-
-			<Footer />
+			<Box sx={{ backgroundColor: '#F5F2F5', p: 3, borderRadius: 3 }}>
+				<Footer />
+			</Box>
 		</>
 	)
 }

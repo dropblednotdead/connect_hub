@@ -18,7 +18,7 @@ const ProfileTitle = ({ type, acceptStatus, isSuperUser }: Props) => {
 	let colorStatus
 
 	// в зависимости от статуса подтверждённости выбирается цвет
-	if (acceptStatus && acceptStatus === 'Ожидание') colorStatus = '#000000'
+	if (acceptStatus && acceptStatus === 'Ожидание') colorStatus = '#141414'
 	if ((acceptStatus && acceptStatus === 'Принято') || isSuperUser) colorStatus = '#319025'
 	if (acceptStatus && acceptStatus === 'Отклонено') colorStatus = '#A20404'
 
@@ -59,22 +59,6 @@ const ProfileTitle = ({ type, acceptStatus, isSuperUser }: Props) => {
 				</Typography>
 			</Box>
 
-			{/* Если ты подтверждён или супер юзер, то ты можешь видеть запросы на подключение */}
-			{(acceptStatus || isSuperUser) && (
-				<Box sx={{ mt: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-					<Typography variant='h4' sx={{ fontSize: { xs: '24px', md: '36px' } }}>
-						ЗАПРОСЫ НА ПОДСОЕДИНЕНИЕ
-					</Typography>
-
-					{type === 'магистральный провайдер' && (
-						<Typography
-							sx={{ display: { md: 'block', xs: 'none' }, color: theme.palette.secondary.main }}
-						>
-							статус
-						</Typography>
-					)}
-				</Box>
-			)}
 		</>
 	)
 }

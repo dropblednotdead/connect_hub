@@ -9,6 +9,7 @@ import ProfileRequestsAdmin from '../../components/Profile/ProfileRequestsAdmin/
 import { useGetOrganizationsQuery } from '../../api/authApi'
 import { setOrganizations } from '../../store/slice/profileSlice'
 import { useEffect } from 'react'
+import Footer from '../../components/Main/Footer/Footer'
 
 const ProfilePage = () => {
 	// Здесь мы из хранилища Redux Toolkit достаём тип организации
@@ -39,8 +40,10 @@ const ProfilePage = () => {
 	// Box это тоже аналог div, но который лучше подходит для адаптивности
 	return (
 		<Box sx={{ mb: 10, mt: 2 }}>
-			<ProfileHeader isSuperUser={isSuperUser!} />
-			<ProfileTitle type={type!} acceptStatus={acceptStatus} isSuperUser={isSuperUser!} />
+			<Box sx={{ backgroundColor: '#F5F2F5', py: { xs: 3, md: 6 }, px: { xs: 3, md: 8 }, borderRadius: 3, mb: 4 }}>
+				<ProfileHeader isSuperUser={isSuperUser!} />
+				<ProfileTitle type={type!} acceptStatus={acceptStatus} isSuperUser={isSuperUser!} />
+			</Box>
 
 			{/* Если ты магистральный провайдер и аккаунт подтверждён, то ты видишь это */}
 			{type === 'магистральный провайдер' && acceptStatus && (
@@ -56,6 +59,10 @@ const ProfilePage = () => {
 			{isSuperUser && <ProfileRequestsAdmin />}
 			{/* Если аккаунт не подтвержён видишь просто линию */}
 			{(isSuperUser || acceptStatus) && <DividerCustom />}
+
+			<Box sx={{ backgroundColor: '#F5F2F5', p: 3, borderRadius: 3, mb: 4, mt: 4 }}>
+				<Footer />
+			</Box>
 		</Box>
 	)
 }

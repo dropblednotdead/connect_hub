@@ -46,6 +46,19 @@ export const mapApi = createApi({
 				data: body,
 			}),
 		}),
+		editPillar: builder.mutation<IPillar, { id: number; body: Partial<IAddPillar> }>({
+			query: ({ id, body }) => ({
+				url: `/poles/${id}/`,
+				method: 'PATCH',
+				data: body,
+			}),
+		}),
+		deletePillar: builder.mutation<void, number>({
+			query: id => ({
+				url: `/poles/${id}/`,
+				method: 'DELETE',
+			}),
+		}),
 	}),
 })
 
@@ -54,4 +67,6 @@ export const {
 	useGetPillarLinksQuery,
 	useGetConnectionLinksQuery,
 	useAddPillarMutation,
+	useEditPillarMutation,
+	useDeletePillarMutation,
 } = mapApi

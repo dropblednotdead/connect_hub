@@ -39,7 +39,7 @@ const ProfileRequestsButtons = ({ id, answer, refetch }: Props) => {
 					margin: '5px',
 					padding: '10px 40px',
 					borderRadius: '0px',
-					backgroundColor: 'black',
+					backgroundColor: '#141414',
 					color: 'white',
 					width: { md: 'auto', xs: '100%' },
 				}}

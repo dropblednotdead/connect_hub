@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { useGetConnectionLinksQuery, useGetPillarLinksQuery } from '../../../api/mapApi'
 import { useGetConnectionQuery } from '../../../api/profileApi'
 import { useAppDispatch, useAppSelector } from '../../../hooks/react-redux'
+import { Box, Typography } from '@mui/material'
 
 // типизация параметров ProfileRequestsBackbone
 interface Props {
@@ -63,24 +64,39 @@ const ProfileRequestsBackbone = ({ type }: Props) => {
 	}
 	return (
 		<section>
-			{connections.map(connection => {
-				const pair = items.find(i => i.connectionId === connection.id)
-				const start = pair?.startStreet ?? ''
-				const end = pair?.endStreet ?? ''
+			<Box sx={{ backgroundColor: '#F5F2F5', py: { xs: 6, md: 10 }, px: { xs: 3, md: 8 }, borderRadius: 3, mb: 4, mt: 4 }}>
+				<Typography variant='h3' sx={{ fontSize: { xs: '2rem', md: '36px' }, mb: 3 }}>
+					ИСТОРИЯ ЗАПРОСОВ
+				</Typography>
+				<DividerCustom />
+				
+				{connections.length === 0 ? (
+					<Typography sx={{ mt: 3, fontSize: '20px' }}>У вас пока нет обработанных заявок.</Typography>
+				) : (
+					connections.map(connection => {
+						const pair = items.find(i => i.connectionId === connection.id)
+						const start = pair?.startStreet ?? ''
+						const startCoords = pair?.startCoords ?? ''
+						const end = pair?.endStreet ?? ''
+						const endCoords = pair?.endCoords ?? ''
+						const date = pair?.date ?? ''
 
-				return (
-					<article key={connection.id}>
-						<DividerCustom />
-						<ProfileRequest
-							// передаём массив из двух строк
-							street={[start, end]}
-							status={connection.status}
-							type={type!}
-							currentNameOrganization={''}
-						/>
-					</article>
-				)
-			})}
+						return (
+							<Box key={connection.id} sx={{ mt: 3, mb: 3 }}>
+								<ProfileRequest
+									street={[start.toUpperCase(), end.toUpperCase()]}
+									coords={[startCoords, endCoords]}
+									date={date}
+									status={connection.status}
+									type={type!}
+									currentNameOrganization={pair?.owners ?? []}
+								/>
+								<DividerCustom />
+							</Box>
+						)
+					})
+				)}
+			</Box>
 		</section>
 	)
 }

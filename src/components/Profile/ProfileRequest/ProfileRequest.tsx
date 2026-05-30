@@ -7,6 +7,8 @@ import { useAppSelector } from '../../../hooks/react-redux'
 // Типизация параметров ProfileRequests
 interface Props {
 	street: string | string[]
+	coords?: string | string[]
+	date?: string
 	status?: number
 	type?: TypeOrganization
 	currentNameOrganization: string | string[]
@@ -21,55 +23,85 @@ const ProfileRequests = ({
 	pillarId,
 	answer,
 	street,
+	coords,
+	date,
 	status,
 	type,
 	currentNameOrganization,
 	refetchConnectionLinks,
 }: Props) => {
-	// получаем из хранилища Redux значение супер юзер ли пользователь
 	const isSuperUser = useAppSelector(state => state.userSlice.user?.is_superuser)
-	let colorStatus = ''
+	
+	let statusBg = 'gray'
+	let statusColor = 'white'
+	let statusText = 'В ожидании'
 
-	// в зависимости от статуса устанавливаем цвет
-	if (status === 1) colorStatus = '#000000'
-	if (status === 2) colorStatus = '#319025'
-	if (status === 3) colorStatus = '#A20404'
+	if (status === 1) {
+		statusText = 'В ожидании'
+		statusBg = 'gray'
+		statusColor = 'white'
+	} else if (status === 2) {
+		statusText = 'Одобрено'
+		statusBg = 'rgba(131, 37, 144, 1)'
+		statusColor = 'white'
+	} else if (status === 3) {
+		statusText = 'Отклонено'
+		statusBg = '#ECD8EF'
+		statusColor = 'rgba(131, 37, 144, 1)'
+	}
 
 	// Box это тоже аналог div, но который лучше подходит для адаптивности
 	// Typography это компонент, который в зависимости от значения variants равен определённому тегу
 	// Stack это компонент, который по умолчанию аналогичен div с display:flex и flexDirection: column
 	return (
-		<Stack
-			direction={{ md: 'row', xs: 'column' }}
-			sx={{
-				justifyContent: 'space-between',
-				alignItems: { xs: 'start', lg: 'center' },
-				padding: '5px',
-			}}
-		>
-			{/* Если у нас street это не массив, то мы выводим название улицы */}
-			{!Array.isArray(street) ? (
-				<Typography sx={{ fontSize: '20px' }}>{street}</Typography>
-			) : (
-				/* Иначе здесь мы идём по массиву и выводим улицы */
-				<Stack direction='column' spacing={2}>
-					{street.map((s, i) => (
-						<Typography key={i} sx={{ fontSize: '20px' }}>
-							{s}
-						</Typography>
-					))}
-				</Stack>
+		<Box sx={{ width: '100%' }}>
+			{/* Дата создания запроса */}
+			{date && (
+				<Typography sx={{ color: 'rgba(131, 37, 144, 1)', fontWeight: 'bold', mb: 1 }}>
+					{date}
+				</Typography>
 			)}
+			<Stack
+				direction={{ md: 'row', xs: 'column' }}
+				sx={{
+					justifyContent: 'space-between',
+					alignItems: 'flex-start',
+					padding: '5px',
+				}}
+			>
+				{/* Если у нас street это не массив, то мы выводим название улицы */}
+				{!Array.isArray(street) ? (
+					<Box>
+						<Typography sx={{ fontSize: '20px' }}>{street}</Typography>
+						{coords && !Array.isArray(coords) && (
+							<Typography sx={{ fontSize: '14px', color: 'gray' }}>{coords}</Typography>
+						)}
+					</Box>
+				) : (
+					/* Иначе здесь мы идём по массиву и выводим улицы */
+					<Stack direction='column' spacing={2}>
+						{street.map((s, i) => (
+							<Box key={i}>
+								<Typography sx={{ fontSize: '20px' }}>
+									{s}
+								</Typography>
+								{coords && Array.isArray(coords) && coords[i] && (
+									<Typography sx={{ fontSize: '14px', color: 'gray' }}>{coords[i]}</Typography>
+								)}
+							</Box>
+						))}
+					</Stack>
+				)}
 
-			{/* Если мы электросетевая или супер юзер */}
-			{(type === 'электросетевая компания' || isSuperUser) && (
+			{/* Если мы электросетевая или супер юзер, либо магистральный провайдер */}
+			{(type === 'электросетевая компания' || isSuperUser || type === 'магистральный провайдер') && currentNameOrganization && (
 				<>
-					{/* Если у нас street это не массив, то мы выводим название организации */}
+					{/* Если у нас currentNameOrganization это не массив, то мы выводим название организации */}
 					{!Array.isArray(currentNameOrganization) ? (
 						<Typography sx={{ my: { lg: 0, xs: 2 } }}>{currentNameOrganization}</Typography>
 					) : (
 						/* Иначе здесь мы идём по массиву и выводим названия организаций */
-						<Stack direction='column' spacing={2} sx={{ mt: 3 }}>
+						<Stack direction='column' spacing={2} sx={{ mt: { lg: 0, xs: 3 } }}>
 							{currentNameOrganization.map((name, i) => (
 								<Typography key={i} sx={{ fontSize: '20px' }}>
 									{name}
@@ -80,19 +112,29 @@ const ProfileRequests = ({
 				</>
 			)}
 
-			<Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
+			<Box sx={{ width: { xs: '100%', md: '200px' }, display: 'flex', justifyContent: { md: 'flex-end', xs: 'flex-start' } }}>
 				{/* Если акк подтверждён и мы магистральный провайдер, то выводим статус запроса */}
 				{status && type === 'магистральный провайдер' && (
-					<Typography
-						sx={{
-							color: colorStatus,
-							fontSize: { lg: '18px', xs: '20px' },
-							fontWeight: 'bold',
-							mt: { lg: 0, xs: 2 },
-						}}
-					>
-						{formatStatus(status)}
-					</Typography>
+					<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', mt: { lg: 0, xs: 2 } }}>
+						<Box sx={{ 
+							boxSizing: 'border-box',
+							padding: '10px 40px',
+							borderRadius: '35px',
+							backgroundColor: statusBg,
+							color: statusColor,
+							width: '100%',
+							textAlign: 'center',
+							textTransform: 'uppercase',
+							fontWeight: 500,
+							fontSize: '0.875rem',
+							lineHeight: 1.75,
+						}}>
+							{statusText}
+						</Box>
+						<Typography sx={{ mt: 1, color: 'gray', textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}>
+							Открыть опоры
+						</Typography>
+					</Box>
 				)}
 
 				{/* Если электросетевая компания, то выводим кнопки обработки запроса */}
@@ -117,6 +159,7 @@ const ProfileRequests = ({
 				)}
 			</Box>
 		</Stack>
+		</Box>
 	)
 }
 

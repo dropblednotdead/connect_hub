@@ -1,5 +1,5 @@
 import { Grid2, Typography, useTheme } from '@mui/material'
-import photo from '../../../assets/Rectangle 433 (1) 1.png'
+import photo from '../../../assets/Frame.png'
 
 const Title = () => {
 	// Достаём объект темы из MaterialUI

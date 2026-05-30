@@ -16,8 +16,8 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 const Accordion = styled((props: AccordionProps) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
-	borderTop: `1px solid black`,
-	borderBottom: `1px solid black`,
+	borderTop: `1px solid #141414`,
+	borderBottom: `1px solid #141414`,
 	'&:not(:last-child)': {
 		borderBottom: 0,
 	},
@@ -66,7 +66,7 @@ export default function CustomizedAccordions() {
 	return (
 		<Box sx={{ mt: 5 }}>
 			<Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
+				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: '#141414' }} />}>
 					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ОПОР
 					</Typography>
@@ -82,7 +82,7 @@ export default function CustomizedAccordions() {
 			</Accordion>
 
 			<Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
+				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: '#141414' }} />}>
 					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						ПОИСК ОПТИМАЛЬНЫХ ОПОР
 					</Typography>
@@ -97,7 +97,7 @@ export default function CustomizedAccordions() {
 			</Accordion>
 
 			<Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
+				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: '#141414' }} />}>
 					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						УСТРАНЕНИЕ НЕЛЕГАЛЬНЫХ ПОДКЛЮЧЕНИЙ
 					</Typography>
@@ -112,7 +112,7 @@ export default function CustomizedAccordions() {
 			</Accordion>
 
 			<Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
+				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: '#141414' }} />}>
 					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }} component='span'>
 						ОТПРАВКА ЗАЯВОК НА ПОДКЛЮЧЕНИЕ
 					</Typography>

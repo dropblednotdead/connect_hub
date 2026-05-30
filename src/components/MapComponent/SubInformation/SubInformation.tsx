@@ -2,36 +2,43 @@ import { Grid2, Typography } from '@mui/material'
 import PlanetSVG from '../../../assets/planet.svg'
 import PlaceIcon from '@mui/icons-material/Place'
 
-const SubInformation = () => {
+interface Props {
+	type?: string
+}
+
+const SubInformation = ({ type }: Props) => {
 	return (
 		<Grid2 container sx={{ mt: 6 }}>
 			<Grid2
 				size={{ lg: 3, xs: 0 }}
 				sx={{ display: 'flex', alignSelf: 'center', justifyContent: 'center' }}
 			>
-				<img src={PlanetSVG} style={{ width: '35%' }} />
+				{(type !== 'электросетевая компания' && type !== 'магистральный провайдер') && <img src={PlanetSVG} style={{ width: '35%' }} />}
 			</Grid2>
 			<Grid2 size={{ lg: 6, xs: 12 }}>
-				<Typography sx={{ fontSize: { xs: 18, lg: 20 } }}>
-					Мы обладаем богатым опытом и профессиональными знаниями в области электросетевой
-					инфраструктуры. Мы используем современное оборудование и методы, которые позволяют нам
-					эффективно решать самые сложные задачи.
-				</Typography>
+				{(type !== 'электросетевая компания' && type !== 'магистральный провайдер') && (
+					<Typography sx={{ fontSize: { xs: 18, lg: 20 } }}>
+						Мы обладаем богатым опытом и профессиональными знаниями в области электросетевой
+						инфраструктуры. Мы используем современное оборудование и методы, которые позволяют нам
+						эффективно решать самые сложные задачи.
+					</Typography>
+				)}
 			</Grid2>
 			<Grid2 size={{ lg: 3, xs: 0 }}></Grid2>
 
-			<Grid2 size={{ lg: 7, xs: 12 }} sx={{ mt: { xs: 20, lg: 25 } }}>
+			<Grid2 size={{ lg: 7, xs: 12 }} sx={{ mt: { xs: 0, lg: 0 }, display: 'flex', alignItems: 'flex-start' }}>
+				<img src={PlanetSVG} style={{ width: '100px', marginRight: '20px' }} alt="planet" />
 				<Typography variant='h3' sx={{ fontSize: { xs: '2rem', md: '46px' } }}>
-					ПОСМОТРИТЕ ОПОРЫ НА КАРТЕ
+					СМОТРИТЕ ОПОРЫ НА КАРТЕ
 				</Typography>
 			</Grid2>
 			<Grid2
 				size={{ lg: 5, xs: 12 }}
 				sx={{
-					mt: { lg: 20, xs: 3 },
+					mt: { xs: 0, lg: 0 },
 					display: 'flex',
-					justifyContent: { lg: 'center', xs: 'start' },
-					alignItems: 'center',
+					justifyContent: { lg: 'flex-end', xs: 'start' },
+					alignItems: 'flex-start',
 				}}
 			>
 				<PlaceIcon sx={{ fontSize: 50, color: 'purple' }} />

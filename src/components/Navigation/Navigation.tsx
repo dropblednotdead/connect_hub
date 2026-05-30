@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
 import userSVG from '../../assets/user.svg'
 import { useAppSelector } from '../../hooks/react-redux'
+import RequestsBadge from './RequestsBadge'
 
 const Navigation = () => {
 	// Достаём объект темы из MaterialUI
@@ -14,19 +15,32 @@ const Navigation = () => {
 	// Достаём флаг инициализации из библиотеки Redux Toolkit
 	const isAuth = useAppSelector(state => state.authSlice.isAuth)
 	const acceptStatus = useAppSelector(state => state.userSlice.user?.user_info?.accept_status)
+	const type = useAppSelector(state => state.userSlice.user?.user_info?.type)
 
 	// Box это тоже аналог div, но который лучше подходит для адаптивности
 	// NavLink это аналог тега a. Отличие его в том, что он делает переход без перезагрузки страницы
 	return (
 		<Box sx={{ display: 'flex', alignItems: 'center' }}>
-			<NavLink to={acceptStatus ? '/map' : '/'} className={styles.link}>
+			<NavLink 
+				to={acceptStatus ? '/map' : '/'} 
+				className={styles.link}
+				style={{ fontWeight: (location.pathname === '/' || location.pathname === '/map') ? 'bold' : 'normal' }}
+			>
 				Главная
 			</NavLink>
+
+			{isAuth && type === 'электросетевая компания' && acceptStatus === 'Принято' && (
+				<RequestsBadge />
+			)}
 
 			{location.pathname !== '/login' &&
 				location.pathname !== '/registration' &&
 				location.pathname !== '/contacts' && (
-					<NavLink to='/aboutUs' className={styles.link}>
+					<NavLink 
+						to='/aboutUs' 
+						className={styles.link}
+						style={{ fontWeight: location.pathname === '/aboutUs' ? 'bold' : 'normal' }}
+					>
 						О нас
 					</NavLink>
 				)}
@@ -34,7 +48,11 @@ const Navigation = () => {
 			{location.pathname !== '/login' &&
 				location.pathname !== '/registration' &&
 				location.pathname !== '/contacts' && (
-					<NavLink to='/contacts' className={styles.link}>
+					<NavLink 
+						to='/contacts' 
+						className={styles.link}
+						style={{ fontWeight: location.pathname === '/contacts' ? 'bold' : 'normal' }}
+					>
 						Контакты
 					</NavLink>
 				)}

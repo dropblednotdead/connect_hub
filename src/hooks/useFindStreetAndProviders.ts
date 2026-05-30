@@ -10,7 +10,11 @@ interface Props {
 export interface StreetPair {
 	connectionId: number
 	startStreet: string
+	startCoords: string
 	endStreet: string
+	endCoords: string
+	date: string
+	owners: string[]
 }
 
 /**
@@ -36,13 +40,24 @@ export function useFindStreetAndProviders({
 		if (!pl) continue
 
 		// Формируем строки
-		const startStreet = `${pl.pole_a.street} ${pl.pole_a.building}${pl.pole_a.index ?? ''}`
-		const endStreet = `${pl.pole_b.street} ${pl.pole_b.building}${pl.pole_b.index ?? ''}`
+		const startStreet = `${pl.pole_a.street}, ${pl.pole_a.building}${pl.pole_a.index ?? ''}`
+		const startCoords = `${pl.pole_a.longitude} ${pl.pole_a.latitude}`
+		const endStreet = `${pl.pole_b.street}, ${pl.pole_b.building}${pl.pole_b.index ?? ''}`
+		const endCoords = `${pl.pole_b.longitude} ${pl.pole_b.latitude}`
+		
+		// Format date DD.MM.YYYY
+		const dateStr = conn.created_at ? new Date(conn.created_at).toLocaleDateString('ru-RU') : 'Неизвестная дата'
+		
+		const owners = [pl.pole_a.owner.name, pl.pole_b.owner.name]
 
 		items.push({
 			connectionId: conn.id,
 			startStreet,
+			startCoords,
 			endStreet,
+			endCoords,
+			date: dateStr,
+			owners,
 		})
 	}
 

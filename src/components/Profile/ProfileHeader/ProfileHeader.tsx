@@ -1,4 +1,4 @@
-import { Button, Grid2, Typography, useTheme } from '@mui/material'
+import { Box, Button, Typography, useTheme } from '@mui/material'
 import TrendingFlatRoundedIcon from '@mui/icons-material/TrendingFlatRounded'
 import { useAppDispatch, useAppSelector } from '../../../hooks/react-redux'
 import { clearUser } from '../../../store/slice/userSlice'
@@ -49,27 +49,52 @@ const ProfileHeader = ({ isSuperUser }: Props) => {
 	// Typography это компонент, который в зависимости от значения variants равен определённому тегу
 
 	return (
-		<Grid2
-			container
+		<Box
 			sx={{
 				display: 'flex',
-				alignItems: 'center',
-				padding: '40px 20px',
-				backgroundColor: theme.palette.primary.main,
+				flexDirection: { xs: 'column', sm: 'row' },
+				gap: '15px',
+				mx: { xs: -3, md: -8 }
 			}}
 		>
-			<Grid2 size={{ sm: 10, lg: 11 }} sx={{ color: 'white' }}>
-				<Typography variant='h4' sx={{ mr: 2, fontSize: { xs: '24px', md: '42px' } }}>
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					py: '40px',
+					pr: '30px',
+					pl: { xs: 3, md: 8 },
+					backgroundColor: 'rgba(131, 37, 144, 1)',
+					borderRadius: { xs: '35px', sm: '0 35px 35px 0' },
+					color: 'white'
+				}}
+			>
+				<Typography variant='h4' sx={{ fontSize: { xs: '20px', md: '28px' } }}>
 					{name}
 				</Typography>
-			</Grid2>
-			<Grid2 size={{ sm: 1, xs: 2 }} sx={{ mt: { xs: 2, sm: 0 } }}>
-				<Button sx={{ padding: '0px', color: 'white' }} onClick={handleLogout}>
-					<Typography component='span'>Выйти</Typography>
-					<TrendingFlatRoundedIcon sx={{ mx: 1 }} />
-				</Button>
-			</Grid2>
-		</Grid2>
+			</Box>
+
+			<Button
+				onClick={handleLogout}
+				sx={{
+					flexGrow: 1,
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'flex-start',
+					padding: { xs: '20px 40px', sm: '40px 50px' },
+					backgroundColor: '#D590DF',
+					borderRadius: { xs: '35px', sm: '35px 0 0 35px' },
+					color: 'white',
+					textTransform: 'none',
+					'&:hover': {
+						backgroundColor: '#C47CCF'
+					}
+				}}
+			>
+				<Typography component='span' sx={{ fontSize: '20px', textDecoration: 'underline' }}>Выйти</Typography>
+				<TrendingFlatRoundedIcon sx={{ ml: 1, fontSize: '28px' }} />
+			</Button>
+		</Box>
 	)
 }
 

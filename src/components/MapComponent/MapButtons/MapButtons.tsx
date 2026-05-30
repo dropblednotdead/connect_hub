@@ -53,13 +53,13 @@ const MapButtons = ({
 		<>
 			{/* если ты электросетевая компания и аккаунт подтверждён, ты видишь эти кнопки */}
 			{type === 'электросетевая компания' && acceptStatus === 'Принято' && (
-				<Grid2 container sx={{ marginBottom: 15 }}>
-					<Grid2 size={{ lg: 8, xs: 12 }}>
+				<Grid2 container sx={{ marginBottom: 4 }}>
+					<Grid2 size={{ lg: 7, xs: 12 }}>
 						<Typography variant='h4' sx={{ fontSize: { xs: '20px', md: '46px' } }}>
 							{isSetData ? 'Кликнете на карту, чтобы выбрать место опоры' : ''}
 						</Typography>
 					</Grid2>
-					<Grid2 size={{ lg: 4, xs: 12 }}>
+					<Grid2 size={{ lg: 5, xs: 12 }}>
 						<CustomButton
 							onClick={setIsSetData}
 							sx={{
@@ -67,6 +67,13 @@ const MapButtons = ({
 								padding: '25px 20px',
 								fontWeight: 'medium',
 								mt: { lg: 0, xs: 2 },
+								backgroundColor: 'rgba(131, 37, 144, 1)',
+								color: 'white',
+								borderRadius: '50px',
+								fontSize: '18px',
+								'&:hover': {
+									backgroundColor: 'rgba(131, 37, 144, 0.8)'
+								}
 							}}
 						>
 							{isSetData ? 'ОТМЕНИТЬ ДОБАВЛЕНИЕ' : 'ДОБАВИТЬ ОПОРУ'}
@@ -77,7 +84,7 @@ const MapButtons = ({
 
 			{/* если ты магистральный провайдер и аккаунт подтверждён, ты видишь эти кнопки */}
 			{type === 'магистральный провайдер' && acceptStatus === 'Принято' && (
-				<Grid2 container sx={{ marginBottom: 15 }}>
+				<Grid2 container sx={{ marginBottom: 4 }}>
 					<Grid2 size={{ lg: 7, xs: 12 }}>
 						<Typography variant='h4' sx={{ fontSize: { xs: '26px', md: '36px' } }}>
 							{isSetData ? 'Кликайте на линии, чтобы выбрать их' : ''}
@@ -89,11 +96,15 @@ const MapButtons = ({
 							sx={{
 								width: '100%',
 								padding: '25px 20px',
-								background: isSetData ? 'white' : 'black',
-								color: isSetData ? 'black' : 'white',
-								border: isSetData ? 'black solid 2px' : 'none',
-								mb: 2,
 								fontWeight: 'medium',
+								borderRadius: '50px',
+								fontSize: '18px',
+								backgroundColor: isSetData ? '#ECD8EF' : 'rgba(131, 37, 144, 1)',
+								color: isSetData ? 'rgba(131, 37, 144, 1)' : 'white',
+								mb: 2,
+								'&:hover': {
+									backgroundColor: isSetData ? '#E0C0E5' : 'rgba(131, 37, 144, 0.8)'
+								}
 							}}
 							onClick={() => {
 								{
@@ -106,7 +117,7 @@ const MapButtons = ({
 							}}
 						>
 							{/* Если состояние изменения данных = true, то отображается первая фраза, иначе вторая */}
-							{isSetData ? 'ОТМЕНИТЬ ПОДКЛЮЧЕНИЕ' : 'ВЫБРАТЬ ЛИНИИ НА ПОДКЛЮЧЕНИЕ'}
+							{isSetData ? 'ОТМЕНИТЬ ПОДКЛЮЧЕНИЕ' : 'ПОДКЛЮЧИТЬСЯ'}
 						</CustomButton>
 
 						{/* Если состояние изменения данных = true */}

@@ -13,8 +13,8 @@ const Statistics = () => {
 
 	return (
 		<>
-			<Grid2 container sx={{ mt: '120px', alignItems: 'center', borderBottom: '1px solid black' }}>
-				<Grid2 size={3} sx={{ pb: 2 }}>
+			<Grid2 container sx={{ mt: '120px', alignItems: 'center', borderBottom: '1px solid #141414' }}>
+				<Grid2 size={3} sx={{ pb: 5 }}>
 					<Typography
 						variant='h1'
 						sx={{
@@ -25,7 +25,7 @@ const Statistics = () => {
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={5} sx={{ pl: 1, pb: 2 }}>
+				<Grid2 size={5} sx={{ pl: 1, pb: 5 }}>
 					<Typography
 						variant='body1'
 						sx={{
@@ -41,9 +41,9 @@ const Statistics = () => {
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						pb: 2,
+						pb: 5,
 						pl: 3,
-						borderLeft: '1px solid black',
+						borderLeft: '1px solid #141414',
 					}}
 				>
 					<Typography
@@ -68,13 +68,13 @@ const Statistics = () => {
 				</Grid2>
 			</Grid2>
 
-			<Grid2 container sx={{ mb: '50px', borderBottom: '1px solid black' }}>
+			<Grid2 container sx={{ mb: '50px' }}>
 				<Grid2
 					size={4}
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						py: 3,
+						py: 5,
 						px: 2,
 					}}
 				>
@@ -103,9 +103,8 @@ const Statistics = () => {
 					size={4}
 					sx={{
 						px: { sm: 4, xs: 1 },
-						py: 3,
-						borderLeft: '1px solid black',
-						borderRight: '1px solid black',
+						py: 5,
+						borderLeft: '1px solid #141414',
 					}}
 				>
 					<Typography
@@ -129,7 +128,7 @@ const Statistics = () => {
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={4} sx={{ px: 3, py: 3 }}>
+				<Grid2 size={4} sx={{ pl: 3, py: 5, borderLeft: '1px solid #141414' }}>
 					<Typography
 						variant='h1'
 						sx={{

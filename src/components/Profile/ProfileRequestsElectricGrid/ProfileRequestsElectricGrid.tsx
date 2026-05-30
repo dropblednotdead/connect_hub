@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useGetConnectionQuery } from '../../../api/profileApi'
 import { useAppDispatch } from '../../../hooks/react-redux'
-import useFindRequestPillars from '../../../hooks/useFindRequestPillars'
+import useGroupedConnectionRequests from '../../../hooks/useGroupedConnectionRequests'
 import { TypeOrganization } from '../../../interfaces/usersInterfaces'
 import { setConnection } from '../../../store/slice/profileSlice'
 import DividerCustom from '../../ui/DividerCustom'
-import ProfileRequest from '../ProfileRequest/ProfileRequest'
 import { IOrganization } from '../../../interfaces/authInterfaces'
+import { Box, Typography } from '@mui/material'
+import ProfileHistoryGroupItem from './ProfileHistoryGroupItem'
 
 interface Props {
 	type: TypeOrganization
@@ -14,56 +15,45 @@ interface Props {
 }
 
 const ProfileRequestsElectricGrid = ({ type, organizations }: Props) => {
-	// Достаём специальную функцию из библиотеки React-Redux для обработки действий
 	const dispatch = useAppDispatch()
-
-	// вызываем свою кастомную функцию, которая отдаёт нам запрошенные столбы
-	// перезапрос за столбами, и флаг загрузки
-	const { isLoading, requestPillars, refetchConnectionLinks } = useFindRequestPillars()
-
-	// Здесь мы делаем запрос за подключениями, в ответе получаем данные и флаг загрузки
+	const { isLoading, groupedRequests } = useGroupedConnectionRequests(true)
 	const { data: dataConnects, isLoading: isLoadingConnects } = useGetConnectionQuery()
 
 	useEffect(() => {
-		// Если подключения есть и загрузка прошла
 		if (dataConnects && !isLoadingConnects) {
-			// устанавливаем их в хранилище Redux
 			dispatch(setConnection(dataConnects.connections))
 		}
-	}, [dataConnects, isLoadingConnects])
+	}, [dataConnects, isLoadingConnects, dispatch])
 
 	return (
 		<section>
-			{/* Если загрузка, то показываем заголовок */}
 			{isLoading && <h1>Загрузка данных...</h1>}
-
-			{/* Идём по массиву и отрисовываем наши запросы */}
-			{!isLoading &&
-				requestPillars.map(requestPillar => {
-					// находим имя организации которая делает запрос
-					const nameOrg = organizations.find(org => {
-						return dataConnects?.connections.some(connect => connect.provider === org.id)
-					})?.name
-
-					// это строка которая содержит Улицу, дом и индекс дома если он есть
-					// `${requestPillar?.pillar.street}, ${requestPillar?.pillar.building}${requestPillar?.pillar.
-					// index ? requestPillar?.pillar.index : ''}`
-					return (
-						<article key={requestPillar?.id}>
-							<DividerCustom />
-							<ProfileRequest
-								street={`${requestPillar?.pillar.street}, ${requestPillar?.pillar.building}${
-									requestPillar?.pillar.index ? requestPillar?.pillar.index : ''
-								}`}
-								type={type!}
-								currentNameOrganization={nameOrg!}
-								pillarId={requestPillar?.id}
-								answer={requestPillar?.ans}
-								refetchConnectionLinks={refetchConnectionLinks}
-							/>
-						</article>
-					)
-				})}
+            {!isLoading && (
+				<Box sx={{ backgroundColor: '#F5F2F5', py: { xs: 6, md: 10 }, px: { xs: 3, md: 8 }, borderRadius: 3, mb: 4, mt: 4 }}>
+					<Typography variant='h3' sx={{ fontSize: { xs: '2rem', md: '36px' }, mb: 3 }}>
+						ИСТОРИЯ ЗАПРОСОВ
+					</Typography>
+					<DividerCustom />
+					
+					{groupedRequests.length === 0 ? (
+						<Typography sx={{ mt: 3, fontSize: '20px' }}>У вас пока нет обработанных заявок.</Typography>
+					) : (
+						groupedRequests.map(group => {
+							const orgName = organizations.find(org => org.id === group.providerId)?.name || 'Неизвестная организация'
+							
+							return (
+								<Box key={group.connectionId} sx={{ mt: 3, mb: 3 }}>
+									<ProfileHistoryGroupItem 
+										group={group} 
+										orgName={orgName} 
+									/>
+									<DividerCustom />
+								</Box>
+							)
+						})
+					)}
+				</Box>
+            )}
 		</section>
 	)
 }

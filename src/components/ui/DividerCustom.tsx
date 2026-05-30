@@ -1,13 +1,12 @@
-import { Divider } from '@mui/material'
+import { Box } from '@mui/material'
 
 // Компонент с линией во всю ширину
 const DividerCustom = () => {
 	return (
-		<Divider
+		<Box
 			sx={{
 				width: '100%',
-				backgroundColor: 'black',
-				borderWidth: '1px',
+				borderBottom: '1px solid #141414',
 				my: 4,
 			}}
 		/>

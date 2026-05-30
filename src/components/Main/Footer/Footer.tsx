@@ -21,8 +21,9 @@ const Footer = () => {
 	// DividerCustom это наш дочерний компонент
 
 	return (
-		<>
-			<Grid2 container sx={{ mt: 30 }}>
+		<Box sx={{ mt: isAuth ? 0 : 15 }}>
+			{!isAuth && <DividerCustom />}
+			<Grid2 container sx={{ mt: isAuth ? 0 : 5 }}>
 				<Grid2 size={3}>
 					<img src={logoSVG} className={styles.logo} alt='logo' />
 				</Grid2>
@@ -50,13 +51,13 @@ const Footer = () => {
 				<Grid2 size={1}></Grid2>
 			</Grid2>
 
-			<DividerCustom />
+			{!isAuth && <DividerCustom />}
 
 			<Box sx={{ mt: 5, mb: 3, display: 'flex', justifyContent: 'space-between' }}>
 				<Typography>Политика коденфициальности</Typography>
 				<Typography>Cookies</Typography>
 			</Box>
-		</>
+		</Box>
 	)
 }
 
