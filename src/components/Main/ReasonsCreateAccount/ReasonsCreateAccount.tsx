@@ -1,7 +1,8 @@
 import { Box, Grid2, Stack, Typography, useTheme } from '@mui/material'
 import ArrowOutwardRoundedIcon from '@mui/icons-material/ArrowOutwardRounded'
 import { NavLink } from 'react-router-dom'
-import planetPNG from '../../../assets/planet.png'
+import leftPlanetPNG from '../../../assets/left_planet.png'
+import rightPlanetPNG from '../../../assets/right_planet.png'
 import styles from './styles.module.css'
 
 const ReasonsCreateAccount = () => {
@@ -15,8 +16,12 @@ const ReasonsCreateAccount = () => {
 
 	// Typography это компонент, который в зависимости от значения variants равен определённому тегу
 	return (
-		<Grid2 container sx={{ mt: { xs: 15, lg: 25 } }}>
-			<Grid2 size={{ lg: 8, md: 8, xs: 12 }}>
+		<Grid2 container sx={{ mt: { xs: 15, lg: 25 }, position: 'relative' }}>
+			<Box sx={{ position: 'absolute', right: 0, top: '35%', transform: 'translateY(-50%)', zIndex: -1, pointerEvents: 'none', display: 'flex', height: { lg: '624px', md: '500px', xs: '300px' } }}>
+				<img src={leftPlanetPNG} style={{ display: 'block', height: '100%', width: 'auto' }} />
+				<img src={rightPlanetPNG} style={{ display: 'block', position: 'absolute', left: 'calc(100% + 15px)', top: 0, height: '100%', width: 'auto' }} />
+			</Box>
+			<Grid2 size={{ lg: 8, xs: 12 }}>
 				<Typography
 					sx={{ fontFamily: '"ActayWide", sans-serif', fontSize: { xs: '32px', md: '46px' } }}
 					variant='h2'
@@ -24,11 +29,12 @@ const ReasonsCreateAccount = () => {
 					ЗАЧЕМ ВАМ ЗАВОДИТЬ АККАУНТ?
 				</Typography>
 			</Grid2>
-			<Grid2 size={{ lg: 4, md: 4, xs: 0 }}></Grid2>
-			<Grid2 size={{ lg: 3.5, md: 3.5, xs: 0 }}></Grid2>
-			<Grid2 size={{ lg: 4.8, md: 4.8, xs: 12 }}>
+			<Grid2 size={{ lg: 4, xs: 0 }}></Grid2>
+			<Grid2 size={{ lg: 3, xs: 0 }}></Grid2>
+			<Grid2 size={{ lg: 5, xs: 12 }}>
 				<Typography sx={{ mt: 3, fontSize: { xs: '20px', lg: '18px' }, color: 'rgba(0, 0, 0, 0.6)' }}>
-					Если вы цените удобство в использовании наших услуг, то мы предлагаем вам{' '}
+					Если вы цените удобство в использовании наших услуг, то мы предлагаем вам
+					<br />
 					<NavLink to='/registration' style={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
 						пройти регистрацию
 					</NavLink>
@@ -63,7 +69,6 @@ const ReasonsCreateAccount = () => {
 				</Stack>
 			</Grid2>
 
-			<img src={planetPNG} className={styles.planetImg} />
 		</Grid2>
 	)
 }

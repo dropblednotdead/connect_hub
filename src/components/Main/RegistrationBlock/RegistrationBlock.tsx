@@ -28,8 +28,7 @@ const RegistrationBlock = () => {
 				}}
 			>
 				<Typography variant='body1' sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
-					Если у вас ещё нет аккаунта на нашем сервисе, попросите менеджера помочь вам с
-					регистрацией.
+					Если у вас ещё нет аккаунта на нашем сервисе, попросите менеджера помочь вам с регистрацией.
 				</Typography>
 
 				<Box sx={{ display: { xs: 'none', lg: 'flex' }, mt: 1 }}>
@@ -43,7 +42,7 @@ const RegistrationBlock = () => {
 						>
 							Аккаунт создан?
 						</Typography>
-						<Typography sx={{ display: 'inline-block', color: theme.palette.primary.main, fontWeight: 500 }}>
+						<Typography sx={{ display: 'inline-block', color: theme.palette.primary.main, fontWeight: 'bold' }}>
 							Войти
 						</Typography>
 					</NavLink>
