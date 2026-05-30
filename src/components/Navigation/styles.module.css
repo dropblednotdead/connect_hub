@@ -1,0 +1,27 @@
+.entrance {
+	background-color: black;
+	color: white;
+}
+
+.link {
+	margin: 0px 10px;
+	padding: 15px 20px;
+}
+
+@media (max-width: 1024px) {
+	.link {
+		margin: 0px 5px;
+		padding: 15px 10px;
+	}
+}
+
+@media (max-width: 830px) {
+	.link {
+		margin: 0px 0px;
+		padding: 15px 5px;
+	}
+}
+
+.user {
+	width: 40px;
+}

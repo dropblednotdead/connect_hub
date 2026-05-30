@@ -1,0 +1,78 @@
+:root {
+	line-height: 1.1;
+}
+
+@font-face {
+	font-family: 'ActayWide';
+	src: url('./fonts/ActayWide/ActayWide-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Cygre';
+	src: url('./fonts/Cygre/Cygre-Medium.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#root {
+	overflow-x: hidden;
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Cygre', sans-serif;
+	overflow-x: hidden;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+p {
+	font-family: 'Cygre', sans-serif;
+}
+
+.ymaps-layers-pane {
+	filter: grayscale(1);
+	-ms-filter: grayscale(1);
+	-webkit-filter: grayscale(1);
+	-moz-filter: grayscale(1);
+	-o-filter: grayscale(1);
+}
+
+.custom-balloon {
+	border-radius: 12px;
+	padding: 16px;
+	font-family: Arial, sans-serif;
+	width: 240px;
+}
+.custom-balloon__header {
+	font-size: 18px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 4px;
+}
+.custom-balloon__body {
+	font-size: 14px;
+	margin-bottom: 12px;
+}
+.custom-balloon__footer {
+	text-align: right;
+}
+
+body::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+body::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: #832590;
+	border-radius: 4px;
+}

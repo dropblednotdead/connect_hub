@@ -1,0 +1,21 @@
+.planetImg {
+	position: absolute;
+	transform: translateX(30%) translateY(0%);
+	width: 35%;
+}
+
+@media (min-width: 426px) and (max-width: 900px) {
+	.planetImg {
+		position: absolute;
+		transform: translateX(120%) translateY(-120%);
+		width: 300px;
+	}
+}
+
+@media (max-width: 425px) {
+	.planetImg {
+		position: absolute;
+		transform: translateX(80%) translateY(-120%);
+		width: 300px;
+	}
+}
