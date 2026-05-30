@@ -33,7 +33,7 @@ const RegistrationBlock = () => {
 				</Typography>
 
 				<Box sx={{ display: { xs: 'none', lg: 'flex' }, mt: 1 }}>
-					<NavLink className={styles.entrance} to='/login'>
+					<NavLink className={styles.entrance} to='/login' style={{ display: 'flex', alignItems: 'center' }}>
 						<Typography
 							sx={{
 								display: 'inline-block',
@@ -43,7 +43,9 @@ const RegistrationBlock = () => {
 						>
 							Аккаунт создан?
 						</Typography>
-						Войти
+						<Typography sx={{ display: 'inline-block', color: theme.palette.primary.main, fontWeight: 500 }}>
+							Войти
+						</Typography>
 					</NavLink>
 				</Box>
 			</Grid2>

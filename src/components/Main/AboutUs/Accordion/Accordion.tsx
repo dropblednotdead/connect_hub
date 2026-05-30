@@ -42,7 +42,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 	...theme.applyStyles('dark', {
 		backgroundColor: 'rgba(0, 0, 0, 0.05)',
 	}),
-	padding: '10px 0px',
+	padding: '24px 0px',
 }))
 
 // Здесь мы задаём стили для подробных описаний в меню "Аккордион"
@@ -67,12 +67,12 @@ export default function CustomizedAccordions() {
 		<Box sx={{ mt: 5 }}>
 			<Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
 				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
-					<Typography component='span' sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ОПОР
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						Мы проводим регулярные обследования опор линий электропередачи, чтобы выявить возможные
 						проблемы и предотвратить аварийные ситуации. Наши специалисты используют современное
 						оборудование и методы, которые позволяют получить точные и достоверные данные о
@@ -83,12 +83,12 @@ export default function CustomizedAccordions() {
 
 			<Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
 				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
-					<Typography component='span' sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						ПОИСК ОПТИМАЛЬНЫХ ОПОР
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						Мы помогаем предприятиям и организациям выбрать наиболее подходящие опоры для их нужд.
 						Мы учитываем все факторы, влияющие на выбор опор, включая технические характеристики,
 						стоимость, доступность и другие параметры.
@@ -98,12 +98,12 @@ export default function CustomizedAccordions() {
 
 			<Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
 				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
-					<Typography component='span' sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography component='span' sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						УСТРАНЕНИЕ НЕЛЕГАЛЬНЫХ ПОДКЛЮЧЕНИЙ
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						Мы боремся с нелегальными подключениями к опорам линий электропередачи, которые могут
 						привести к авариям и перебоям в электроснабжении. Наши специалисты проводят рейды и
 						проверки, выявляют нелегальные подключения и принимают меры по их устранению.
@@ -113,12 +113,12 @@ export default function CustomizedAccordions() {
 
 			<Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
 				<AccordionSummary expandIcon={<AddCircleOutlineOutlinedIcon sx={{ color: 'black' }} />}>
-					<Typography sx={{ fontSize: { xs: '20px', lg: '18px' } }} component='span'>
+					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }} component='span'>
 						ОТПРАВКА ЗАЯВОК НА ПОДКЛЮЧЕНИЕ
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography sx={{ fontSize: { xs: '20px', lg: '18px' } }}>
+					<Typography sx={{ fontSize: { xs: '24px', lg: '22px' } }}>
 						Мы помогаем предприятиям и организациям быстро и просто отправить заявку на подключение
 						к опорам линий электропередачи. Мы предоставляем онлайн-форму для заполнения заявки,
 						которая позволяет отправить её в один клик.
