@@ -35,13 +35,26 @@ const Navigation = () => {
 
 			{location.pathname !== '/login' &&
 				location.pathname !== '/registration' &&
-				location.pathname !== '/contacts' && (
+				location.pathname !== '/contacts' && 
+				!isAuth && (
 					<NavLink 
 						to='/aboutUs' 
 						className={styles.link}
 						style={{ fontWeight: location.pathname === '/aboutUs' ? 'bold' : 'normal' }}
 					>
 						О нас
+					</NavLink>
+				)}
+
+			{location.pathname !== '/login' &&
+				location.pathname !== '/registration' &&
+				location.pathname !== '/contacts' && (
+					<NavLink 
+						to='/support' 
+						className={styles.link}
+						style={{ fontWeight: location.pathname === '/support' ? 'bold' : 'normal' }}
+					>
+						Поддержка
 					</NavLink>
 				)}
 

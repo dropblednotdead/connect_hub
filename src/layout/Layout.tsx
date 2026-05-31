@@ -20,7 +20,7 @@ const Layout = () => {
 	// Достаём функцию навигации из библиотеки React Router Dom
 	const navigate = useNavigate()
 	const location = useLocation()
-	const isMapPage = location.pathname === '/map' || location.pathname === '/requests' || location.pathname === '/profile' || (location.pathname === '/' && isAuth)
+	const isMapPage = location.pathname === '/map' || location.pathname === '/requests' || location.pathname === '/profile' || (location.pathname === '/' && isAuth) || location.pathname === '/support'
 
 	// Вызываем функцию из библиотеки Redux Toolkit Query, которая делает запрос на проверку того,
 	// авторизован ли пользователь.

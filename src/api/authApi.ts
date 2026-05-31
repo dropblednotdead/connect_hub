@@ -3,6 +3,12 @@ import { axiosBaseQuery } from './axiosBaseQuery'
 import { UserData } from '../interfaces/usersInterfaces'
 import { IOrganization, RequestRegistration } from '../interfaces/authInterfaces'
 
+export interface SupportMessageRequest {
+	message: string
+	is_callback_requested: boolean
+	phone_num?: string
+}
+
 // это базовый шаблон конструктора Redux Toolkit Query
 
 export const authApi = createApi({
@@ -53,6 +59,13 @@ export const authApi = createApi({
 				method: 'GET',
 			}),
 		}),
+		sendSupportMessage: builder.mutation<void, SupportMessageRequest>({
+			query: body => ({
+				url: '/support/',
+				method: 'POST',
+				data: body,
+			}),
+		}),
 	}),
 })
 
@@ -64,4 +77,5 @@ export const {
 	useLazyAuthMeQuery,
 	useGetOrganizationsQuery,
 	useLazyGetOrganizationByIdQuery,
+	useSendSupportMessageMutation,
 } = authApi
