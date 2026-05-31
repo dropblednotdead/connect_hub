@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/react-redux'
 import ProfileRequestsBackbone from '../../components/Profile/ProfileRequestsBackbone/ProfileRequestsBackbone'
 import ProfileRequestsElectricGrid from '../../components/Profile/ProfileRequestsElectricGrid/ProfileRequestsElectricGrid'
 import ProfileRequestsAdmin from '../../components/Profile/ProfileRequestsAdmin/ProfileRequestsAdmin'
+import ProfileAdminMessages from '../../components/Profile/ProfileAdminMessages/ProfileAdminMessages'
 import { useGetOrganizationsQuery } from '../../api/authApi'
 import { setOrganizations } from '../../store/slice/profileSlice'
 import { useEffect } from 'react'
@@ -52,7 +53,10 @@ const ProfilePage = () => {
 
 			{/* Если ты электросетевая компания и аккаунт подтверждён, то ты видишь это */}
 			{type === 'электросетевая компания' && !isLoadingOrgs && acceptStatus && (
-				<ProfileRequestsElectricGrid organizations={organizations} type={type} />
+				<>
+					<ProfileRequestsElectricGrid organizations={organizations} type={type} />
+					<ProfileAdminMessages />
+				</>
 			)}
 
 			{/* Если ты супер юзер, то ты видишь это */}

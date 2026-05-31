@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import { Box, Container } from '@mui/material'
 import Navigation from '../components/Navigation/Navigation'
@@ -79,7 +79,9 @@ const Layout = () => {
 					mb: isMapPage ? 2 : 0,
 				}}
 			>
-				<img src={logo} alt='logo' />
+				<NavLink to="/">
+					<img src={logo} alt='logo' />
+				</NavLink>
 				<Navigation />
 			</Box>
 			<BurgerMenu />

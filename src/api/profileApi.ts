@@ -8,6 +8,20 @@ import {
 	ResponseSendConnection,
 } from '../interfaces/profileInterfaces'
 
+export interface AdminPoleMessage {
+    id: number;
+    message: string;
+    created_at: string;
+    pole: {
+        id: number;
+        longitude: string;
+        latitude: string;
+        street: string;
+        building: number;
+        index: string | null;
+    }
+}
+
 // это базовый шаблон конструктора Redux Toolkit Query
 
 export const profileApi = createApi({
@@ -43,6 +57,12 @@ export const profileApi = createApi({
 				}),
 			}
 		),
+		getAdminMessages: builder.query<AdminPoleMessage[], void>({
+			query: () => ({
+				url: '/admin_messages/',
+				method: 'GET',
+			}),
+		}),
 	}),
 })
 
@@ -50,4 +70,5 @@ export const {
 	useGetConnectionQuery,
 	useSendConnectionRequestMutation,
 	useApproveConnectionRequestMutation,
+	useGetAdminMessagesQuery,
 } = profileApi

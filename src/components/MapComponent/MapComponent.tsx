@@ -46,6 +46,15 @@ const MapComponent = ({
 	const mapRef = useRef<any>(null)
 	const focusedPillarCoords = useAppSelector(state => state.mapSlice.focusedPillarCoords)
 
+	const onMapLoad = (ref: any) => {
+		if (ref) {
+			mapRef.current = ref
+			if (focusedPillarCoords) {
+				ref.setCenter(focusedPillarCoords, 18, { checkZoomRange: true, duration: 1000 })
+			}
+		}
+	}
+
 	useEffect(() => {
 		if (mapRef.current && focusedPillarCoords) {
 			mapRef.current.setCenter(focusedPillarCoords, 18, { checkZoomRange: true, duration: 1000 })
@@ -100,11 +109,7 @@ const MapComponent = ({
 					}}
 				>
 					<Map
-						instanceRef={ref => {
-							if (ref) {
-								mapRef.current = ref
-							}
-						}}
+						instanceRef={onMapLoad}
 						style={{ width: '100%', height: '100%' }}
 						defaultState={{ center: BASE_COORDINATES, zoom: 12 }}
 						onClick={(e: any) => {

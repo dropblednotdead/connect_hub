@@ -12,9 +12,10 @@ import {
 	useGetPillarsQuery,
 } from '../../api/mapApi'
 import { useEffect } from 'react'
-import { setConnectionLinks, setPillarLinks } from '../../store/slice/mapSlice'
+import { setConnectionLinks, setPillarLinks, setFocusedPillarCoords } from '../../store/slice/mapSlice'
 import PillarsList from '../../components/MapComponent/PillarsList/PillarsList'
 import { IPillar } from '../../interfaces/mapInterfaces'
+import { useLocation } from 'react-router-dom'
 
 const MapPage = () => {
 	// Достаём тип организации, если он есть из хранилища Redux Toolkit
@@ -42,6 +43,17 @@ const MapPage = () => {
 		isLoading: isLoadingConnectionLinks,
 		refetch,
 	} = useGetConnectionLinksQuery()
+
+	const location = useLocation()
+
+	useEffect(() => {
+		const searchParams = new URLSearchParams(location.search)
+		const lat = searchParams.get('lat')
+		const lng = searchParams.get('lng')
+		if (lat && lng) {
+			dispatch(setFocusedPillarCoords([parseFloat(lng), parseFloat(lat)]))
+		}
+	}, [location.search, dispatch])
 
 	useEffect(() => {
 		// Если загрузка закончена и данные линий есть, устанавливаем их в хранилище Redux Toolkit
