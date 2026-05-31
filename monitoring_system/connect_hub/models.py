@@ -196,3 +196,21 @@ class RestorationRequest(models.Model):
 
     def __str__(self):
         return f"{self.date} {self.email} {self.status}"
+
+class SupportMessage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    message = models.TextField(verbose_name='Сообщение')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Пользователь')
+    phone_num = models.CharField(max_length=20, null=True, blank=True, verbose_name='Номер телефона')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    is_callback_requested = models.BooleanField(default=False, verbose_name='Запрошен обратный звонок')
+
+    class Meta:
+        managed = True
+        db_table = 'support_message'
+        verbose_name = 'Сообщение в поддержку'
+        verbose_name_plural = 'Сообщения в поддержку'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Support Message {self.id} from {self.user if self.user else 'Anonymous'}"

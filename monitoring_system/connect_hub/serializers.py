@@ -127,3 +127,14 @@ class ConnectionLinksSerializer(serializers.ModelSerializer):
         instance._current_user = self.context['request'].user.user_info
         connection = super().update(instance, validated_data)
         return connection
+
+class SupportMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupportMessage
+        fields = ['message', 'is_callback_requested', 'phone_num']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            validated_data['user'] = request.user
+        return super().create(validated_data)

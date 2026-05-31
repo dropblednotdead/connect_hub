@@ -25,6 +25,12 @@ class RestorationRequestCreateView(generics.CreateAPIView):
     serializer_class = RestorationRequestSerializer
 
 
+class SupportMessageCreateView(generics.CreateAPIView):
+    queryset = SupportMessage.objects.all()
+    serializer_class = SupportMessageSerializer
+    permission_classes = [permissions.AllowAny]
+
+
 class PoleLinkListAPIView(generics.ListAPIView):
     queryset = PoleLink.objects.all()
     serializer_class = PoleLinkSerializer
@@ -152,6 +158,7 @@ class ConnectionLinksAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'connections': serializer.data})
+
 
 class OrganizationListAPIView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericAPIView):
     queryset = Organization.objects.all()
