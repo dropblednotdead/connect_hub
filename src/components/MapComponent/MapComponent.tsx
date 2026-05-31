@@ -14,6 +14,7 @@ import { Box, Modal, Typography } from '@mui/material'
 import MapForm from './MapForm/MapForm'
 import { useGetOrganizationsQuery } from '../../api/authApi'
 import { setPillars } from '../../store/slice/mapSlice'
+import MapPillarPopup from './MapPillarPopup/MapPillarPopup'
 
 // Типизация параметров MapComponent
 interface Props {
@@ -65,6 +66,8 @@ const MapComponent = ({
 	// которое будет содержать массив id выбранных линий
 	const [selectedLinks, setSelectedLinks] = useState<number[]>([])
 
+	const [selectedPillar, setSelectedPillar] = useState<IPillar | null>(null)
+
 	// функция установки выбранных линий
 	const handleSetLinks = (linkId: number) => {
 		// сохраняем в локальное состояние
@@ -101,6 +104,7 @@ const MapComponent = ({
 				<div
 					id="map-container"
 					style={{
+						position: 'relative',
 						width: '100%',
 						height: '500px',
 						margin: '30px 0px',
@@ -108,6 +112,14 @@ const MapComponent = ({
 						overflow: 'hidden',
 					}}
 				>
+					{selectedPillar && (
+						<MapPillarPopup 
+							pillar={selectedPillar} 
+							pillarLinks={pillarLinks}
+							connectionLinks={connectionLinks}
+							onClose={() => setSelectedPillar(null)} 
+						/>
+					)}
 					<Map
 						instanceRef={onMapLoad}
 						style={{ width: '100%', height: '100%' }}
@@ -129,24 +141,12 @@ const MapComponent = ({
 							<Placemark
 								key={index}
 								geometry={[pillar.longitude, pillar.latitude]}
-								modules={['geoObject.addon.balloon']}
-								properties={{
-									/* То, что будет отображаться в поп-апе */
-									balloonContent: `
-          					<div class="custom-balloon">
-            					<div class="custom-balloon__header">Столб #${pillar.id}</div>
-            					<div class="custom-balloon__body">
-              				<p><strong>Владелец:</strong> ${pillar.owner.name}</p>
-              				<p><strong>Координаты:</strong> ${pillar.latitude}, ${pillar.longitude}</p>
-           					 </div>
-          					</div>
-        					`,
-								}}
 								options={placemarkOptions({
 									pillarOwner: pillar.owner.name,
 									type,
 									nameOrg: nameOrg!,
 								})}
+								onClick={() => setSelectedPillar(pillar)}
 							/>
 						))}
 
