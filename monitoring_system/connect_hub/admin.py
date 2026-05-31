@@ -53,6 +53,10 @@ class RestorationRequestAdmin(admin.ModelAdmin):
     search_fields = ('email', 'date')
 
 
+class AdminPoleMessageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'pole', 'created_at')
+    search_fields = ('pole__street', 'message')
+
 admin.site.register(UserInformation, UserInformationAdmin)
 admin.site.register(Connection, ConnectionAdmin)
 admin.site.register(ConnectionHistory, ConnectionHistoryAdmin)
@@ -63,6 +67,8 @@ admin.site.register(PoleLink, PoleLinkAdmin)
 admin.site.register(Status, StatusAdmin)
 admin.site.register(Contacts, ContactsAdmin)
 admin.site.register(RestorationRequest, RestorationRequestAdmin)
+admin.site.register(SupportMessage)
+admin.site.register(AdminPoleMessage, AdminPoleMessageAdmin)
 
 admin.site.site_header = 'CONNECT HUB'
 admin.site.site_title = 'CONNECT HUB'

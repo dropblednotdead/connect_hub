@@ -31,6 +31,17 @@ class SupportMessageCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class AdminPoleMessageAPIView(generics.ListAPIView):
+    serializer_class = AdminPoleMessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if hasattr(user, 'user_info') and user.user_info.type == 'электросетевая компания':
+            return AdminPoleMessage.objects.filter(pole__owner=user.user_info.organization)
+        return AdminPoleMessage.objects.none()
+
+
 class PoleLinkListAPIView(generics.ListAPIView):
     queryset = PoleLink.objects.all()
     serializer_class = PoleLinkSerializer

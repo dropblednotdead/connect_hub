@@ -214,3 +214,20 @@ class SupportMessage(models.Model):
 
     def __str__(self):
         return f"Support Message {self.id} from {self.user if self.user else 'Anonymous'}"
+
+
+class AdminPoleMessage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    pole = models.ForeignKey('Pole', on_delete=models.CASCADE, verbose_name='Опора')
+    message = models.TextField(verbose_name='Сообщение')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    class Meta:
+        managed = True
+        db_table = 'admin_pole_message'
+        verbose_name = 'Сообщение администратора по опоре'
+        verbose_name_plural = 'Сообщения администратора по опорам'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.created_at} - Опора {self.pole.id}"

@@ -138,3 +138,11 @@ class SupportMessageSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             validated_data['user'] = request.user
         return super().create(validated_data)
+
+
+class AdminPoleMessageSerializer(serializers.ModelSerializer):
+    pole = PoleSerializer(read_only=True)
+
+    class Meta:
+        model = AdminPoleMessage
+        fields = ['id', 'pole', 'message', 'created_at']

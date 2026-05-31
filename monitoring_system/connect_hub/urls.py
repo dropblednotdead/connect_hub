@@ -5,6 +5,7 @@ urlpatterns = [
     path('contacts/', views.ContactsListAPIView.as_view()),
     path('restoration/', views.RestorationRequestCreateView.as_view()),
     path('support/', views.SupportMessageCreateView.as_view()),
+    path('admin_messages/', views.AdminPoleMessageAPIView.as_view()),
     path('pole_links/', views.PoleLinkListAPIView.as_view()),
     path('poles/', views.PoleAPIVIew.as_view()),
     path('poles/<int:pk>/', views.PoleAPIVIew.as_view()),
