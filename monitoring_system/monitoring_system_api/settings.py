@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -145,7 +147,40 @@ DJOSER = {
     'SERIALIZERS': {
         'user': 'connect_hub.serializers.CustomUserSerializer',
         'current_user': 'connect_hub.serializers.CustomUserSerializer',
-    }
+    },
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+    'SEND_CONFIRMATION_EMAIL': False,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+}
+
+DOMAIN = 'localhost:5173'
+SITE_NAME = 'ConnectHub'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@connecthub.local'
+
+UNFOLD = {
+    "SITE_TITLE": "CONNECT HUB",
+    "SITE_HEADER": "CONNECT HUB",
+    "COLORS": {
+        "primary": {
+            "50": "#fbf2fc",
+            "100": "#f6e4fa",
+            "200": "#ebcbf4",
+            "300": "#dba5ea",
+            "400": "#c672db",
+            "500": "#a844c2",
+            "600": "#832590",
+            "700": "#711e7b",
+            "800": "#5d1a66",
+            "900": "#4d1852",
+            "950": "#34083a",
+        },
+    },
 }
 
 

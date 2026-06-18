@@ -37,6 +37,23 @@ class ConnectionSerializer(serializers.ModelSerializer):
         if existing_links.count() != len(pole_link_ids):
             raise serializers.ValidationError("Некоторые pole_link_id не существуют.")
 
+        from django.db.models import Q
+        pole_ids = set()
+        for pl in existing_links:
+            pole_ids.add(pl.pole_a_id)
+            pole_ids.add(pl.pole_b_id)
+
+        for pole_id in pole_ids:
+            pole = Pole.objects.get(pk=pole_id)
+            approved_count = ConnectionLinks.objects.filter(
+                Q(pole_link__pole_a_id=pole_id) | Q(pole_link__pole_b_id=pole_id),
+                status_id=2
+            ).count()
+
+            if approved_count >= pole.max_connections:
+                raise serializers.ValidationError(f"Опора по адресу ул. {pole.street}, д. {pole.building} достигла лимита подключений ({pole.max_connections}).")
+
+
         validated_data['provider'] = self.context['request'].user.user_info.organization
         validated_data['status'] = Status.objects.first()
         connection = Connection(**validated_data)
