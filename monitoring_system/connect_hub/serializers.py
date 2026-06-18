@@ -141,6 +141,25 @@ class ConnectionLinksSerializer(serializers.ModelSerializer):
         return connection_link
 
     def update(self, instance, validated_data):
+        from django.db.models import Q
+        if validated_data.get('pole_a_answer') is True:
+            pole = instance.pole_link.pole_a
+            approved_count = ConnectionLinks.objects.filter(
+                Q(pole_link__pole_a=pole) | Q(pole_link__pole_b=pole),
+                status_id=2
+            ).exclude(id=instance.id).count()
+            if approved_count >= pole.max_connections:
+                raise serializers.ValidationError(f"Опора по адресу ул. {pole.street}, д. {pole.building} достигла лимита подключений ({pole.max_connections}).")
+
+        if validated_data.get('pole_b_answer') is True:
+            pole = instance.pole_link.pole_b
+            approved_count = ConnectionLinks.objects.filter(
+                Q(pole_link__pole_a=pole) | Q(pole_link__pole_b=pole),
+                status_id=2
+            ).exclude(id=instance.id).count()
+            if approved_count >= pole.max_connections:
+                raise serializers.ValidationError(f"Опора по адресу ул. {pole.street}, д. {pole.building} достигла лимита подключений ({pole.max_connections}).")
+
         instance._current_user = self.context['request'].user.user_info
         connection = super().update(instance, validated_data)
         return connection
