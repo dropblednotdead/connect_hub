@@ -3,13 +3,14 @@ import { Formik, ErrorMessage, Form } from 'formik'
 import styles from './styles.module.css'
 import { CustomButton } from '../../ui/Button'
 import { NavLink } from 'react-router-dom'
-import { BASE_URL } from '../../../constants/constants'
-import axios from 'axios'
 import СonsentСheckbox from '../../ui/СonsentСheckbox'
+import { useResetPasswordMutation } from '../../../api/authApi'
+import { useState } from 'react'
 
 const RecoverForm = () => {
-	// Достаём объект темы из MaterialUI
 	const theme = useTheme()
+	const [resetPassword] = useResetPasswordMutation()
+	const [isSuccess, setIsSuccess] = useState(false)
 
 	// Компонент из библиотеки Formik - аналог form
 	return (
@@ -19,20 +20,31 @@ const RecoverForm = () => {
 				email: '',
 				checkbox: false,
 			}}
+			validate={values => {
+				const errors: any = {};
+				if (!values.email) {
+					errors.email = 'Обязательное поле';
+				} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+					errors.email = 'Некорректный email адрес';
+				}
+				if (!values.checkbox) {
+					errors.checkbox = 'Необходимо согласие';
+				}
+				return errors;
+			}}
 			// Функция, которая будет выполняться при отправке формы
-			onSubmit={async (values, { setSubmitting }) => {
+			onSubmit={async (values, { setSubmitting, setErrors }) => {
 				// в параметрах получаем значения и функцию установки флага выполнения отправки формы
 
-				// Если чекбокс не выбран, то выход из функции
-				if (!values.checkbox) return
-
-				// делаем запрос на восстановление пароля
-				await axios.post(`${BASE_URL}/recover`, values)
-
-				// здесь должна быть логика
-
-				// флаг выполнения отправки формы становится не активным
-				setSubmitting(false)
+				try {
+					await resetPassword({ email: values.email }).unwrap()
+					setIsSuccess(true)
+				} catch (error: any) {
+					setErrors({ email: 'Пользователь с таким email не найден' })
+					console.error('Password reset failed:', error)
+				} finally {
+					setSubmitting(false)
+				}
 			}}
 			// Form - аналог тега form
 			// TextField - аналог инпута, в name привязывается к тому значению, которое прописали
@@ -47,7 +59,7 @@ const RecoverForm = () => {
 					<TextField
 						variant='standard'
 						type='text'
-						name='login'
+						name='email'
 						onChange={handleChange}
 						onBlur={handleBlur}
 						value={values.email}
@@ -58,10 +70,17 @@ const RecoverForm = () => {
 						}}
 						placeholder='ЭЛ. ПОЧТА'
 					/>
-					<ErrorMessage name='name' component='div' />
+					<ErrorMessage name='email' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
+
+					{isSuccess && (
+						<Typography sx={{ color: '#008000', fontSize: '0.9rem', mb: 2 }}>
+							Ссылка для восстановления отправлена на вашу почту
+						</Typography>
+					)}
 
 					{/* Наш кастомный чекбокс */}
 					<СonsentСheckbox onBlur={handleBlur} onChange={handleChange} value={values.checkbox} />
+					<ErrorMessage name='checkbox' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem' }} />
 
 					{/* Кнопка отправки запроса */}
 					<CustomButton

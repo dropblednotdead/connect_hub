@@ -56,24 +56,34 @@ const RegistrationForm = () => {
 				organizationId: null as number | null,
 				email: '',
 			}}
+			validate={values => {
+				const errors: any = {};
+				if (!values.username) errors.username = 'Обязательное поле';
+				if (!values.password) {
+					errors.password = 'Обязательное поле';
+				} else if (values.password.length < 8) {
+					errors.password = 'Минимум 8 символов';
+				} else if (/^\d+$/.test(values.password)) {
+					errors.password = 'Пароль не должен состоять только из цифр';
+				}
+				if (!values.name) errors.name = 'Обязательное поле';
+				if (!values.surname) errors.surname = 'Обязательное поле';
+				if (!values.type) errors.type = 'Обязательное поле';
+				if (!values.organizationId) errors.organizationId = 'Обязательное поле';
+				if (!values.phone_num) errors.phone_num = 'Обязательное поле';
+				if (!values.email) errors.email = 'Обязательное поле';
+				if (!values.checkbox) errors.checkbox = 'Необходимо согласие на обработку данных';
+
+				const selectedOrg = data?.find(item => item.id === values.organizationId);
+				if (selectedOrg && values.type && selectedOrg.type !== values.type) {
+					errors.organizationId = 'Тип организации не совпадает';
+				}
+				return errors;
+			}}
 			// Функция, которая будет выполняться при отправке формы
-			onSubmit={async (values, { setSubmitting }) => {
+			onSubmit={async (values, { setSubmitting, setErrors }) => {
 				// в параметрах получаем значения и функцию установки флага выполнения отправки формы
 				try {
-					// если не выбрана организация или тип организации, тогда регистрация отменяется
-					if (!values.organizationId || !values.type || !values.checkbox) return
-
-					// если пароль меньше 8 символов, то тогда выход из функции
-					if (values.password.length < 8) return
-
-					// если в пароле только числа
-					if (/^\d+$/.test(values.password)) return
-
-					// находим выбранную организацию если она есть
-					const selectedOrg = data?.find(item => item.id === values.organizationId)
-					// проверяем, что если тип и выбранная организация не совпадают, то выходим из функции
-					if (selectedOrg?.type !== values.type) return
-
 					// здесь происходит запрос на регистрацию
 					await registration({
 						name: values.name,
@@ -84,11 +94,21 @@ const RegistrationForm = () => {
 						organization_id: values.organizationId,
 						type: values.type,
 						email: values.email,
-					})
+					}).unwrap()
 
 					// после этого происходит редирект на логин
 					navigate('/login')
-				} catch (error) {
+				} catch (error: any) {
+                    const errorData = error.data;
+                    if (errorData && typeof errorData === 'object') {
+                        const formErrors: any = {};
+                        for (const key in errorData) {
+                            formErrors[key] = Array.isArray(errorData[key]) ? errorData[key][0] : errorData[key];
+                        }
+                        setErrors(formErrors);
+                    } else {
+                        setErrors({ username: 'Произошла ошибка при регистрации' });
+                    }
 					// иначе в консоль выводится ошибка
 					console.log(error)
 				} finally {
@@ -123,9 +143,9 @@ const RegistrationForm = () => {
 								display: 'block',
 								'& .MuiInputBase-root': { width: '100%' },
 							}}
-							placeholder='ЛОГИН ДЛЯ ВХОДА В АККАУНТ'
+						placeholder='ЛОГИН ДЛЯ ВХОДА В АККАУНТ'
 						/>
-						<ErrorMessage name='username' component='div' />
+						<ErrorMessage name='username' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<TextField
 							variant='standard'
 							type='password'
@@ -140,7 +160,7 @@ const RegistrationForm = () => {
 							}}
 							placeholder='ПАРОЛЬ ДЛЯ ВХОДА В АККАУНТ'
 						/>
-						<ErrorMessage name='password' component='div' />
+						<ErrorMessage name='password' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<TextField
 							variant='standard'
 							type='text'
@@ -155,7 +175,7 @@ const RegistrationForm = () => {
 							}}
 							placeholder='ИМЯ ПОЛЬЗОВАТЕЛЯ'
 						/>
-						<ErrorMessage name='name' component='div' />
+						<ErrorMessage name='name' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<TextField
 							variant='standard'
 							type='text'
@@ -170,7 +190,7 @@ const RegistrationForm = () => {
 							}}
 							placeholder='ФАМИЛИЯ ПОЛЬЗОВАТЕЛЯ'
 						/>
-						<ErrorMessage name='surname' component='div' />
+						<ErrorMessage name='surname' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<FormControl fullWidth variant='standard' sx={{ my: 4, display: 'block' }}>
 							<TextField
 								fullWidth
@@ -202,7 +222,7 @@ const RegistrationForm = () => {
 								}}
 							/>
 						</FormControl>
-						<ErrorMessage name='type' component='div' />
+						<ErrorMessage name='type' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<Menu
 							anchorEl={anchorElType}
 							// если anchorElType не null, то меню открыто и это выражение вернёт true
@@ -263,7 +283,7 @@ const RegistrationForm = () => {
 								}}
 							/>
 						</FormControl>
-						<ErrorMessage name='organizationId' component='div' />
+						<ErrorMessage name='organizationId' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<Menu
 							anchorEl={anchorElNameOrg}
 							// если anchorElType не null, то меню открыто и это выражение вернёт true
@@ -300,7 +320,7 @@ const RegistrationForm = () => {
 							}}
 							placeholder='ТЕЛЕФОН ОБРАТНОЙ СВЯЗИ'
 						/>
-						<ErrorMessage name='phone_num' component='div' />
+						<ErrorMessage name='phone_num' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 						<TextField
 							variant='standard'
 							type='email'
@@ -315,10 +335,11 @@ const RegistrationForm = () => {
 							}}
 							placeholder='ЭЛЕКТРОННАЯ ПОЧТА'
 						/>
-						<ErrorMessage name='email' component='div' />
+						<ErrorMessage name='email' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-5px', marginBottom: '10px' }} />
 
 						{/* Компонент с чекбоксом */}
 						<СonsentСheckbox onChange={handleChange} onBlur={handleBlur} value={values.checkbox} />
+						<ErrorMessage name='checkbox' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem' }} />
 
 						{/* Кнопка отправки функции */}
 						<CustomButton

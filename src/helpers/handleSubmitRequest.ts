@@ -43,11 +43,22 @@ export const handleSubmitRequest = async ({
 		// если их нету
 		if (!findedLinks) {
 			// делаем отправку запроса на подключение
-			const { data } = await sendConnectRequest({ pole_links: selectedLinks })
+			const response = await sendConnectRequest({ pole_links: selectedLinks })
 			// если всё успешно и данные пришли
-			if (data) {
+			if (response.data) {
 				// добавляем в хранилище Redux Toolkit новое подключение
-				addConnection(data.new_connection)
+				addConnection(response.data.new_connection)
+			} else if (response.error) {
+				const err = response.error as any
+				if (err.data && Array.isArray(err.data)) {
+					alert(err.data[0])
+				} else if (err.data?.non_field_errors) {
+					alert(err.data.non_field_errors[0])
+				} else if (err.data?.detail) {
+					alert(err.data.detail)
+				} else {
+					alert('Ошибка при создании заявки')
+				}
 			}
 		}
 

@@ -13,6 +13,7 @@ const Layout = () => {
 	// Получаем флаг инициализации приложения из хранилища Redux Toolkit
 	const isInitialized = useAppSelector(state => state.authSlice.isInitialized)
 	const isAuth = useAppSelector(state => state.authSlice.isAuth)
+	const acceptStatus = useAppSelector(state => state.userSlice.user?.user_info?.accept_status)
 
 	// Достаём специальную функцию из библиотеки React-Redux для обработки действий
 	const dispatch = useAppDispatch()
@@ -69,8 +70,8 @@ const Layout = () => {
 		<Container sx={{ py: '35px', px: { sm: '60px', xs: '10px' } }}>
 			<Box
 				sx={{
-					display: { md: 'flex', xs: 'none' },
-					flexDirection: { xs: 'column', md: 'row' },
+					display: 'flex',
+					flexDirection: 'row',
 					justifyContent: 'space-between',
 					alignItems: 'center',
 					backgroundColor: isMapPage ? '#F5F2F5' : 'transparent',
@@ -79,12 +80,14 @@ const Layout = () => {
 					mb: isMapPage ? 2 : 0,
 				}}
 			>
-				<NavLink to="/">
-					<img src={logo} alt='logo' />
+				<NavLink to={acceptStatus ? '/map' : '/'} style={{ maxWidth: '70%', flexShrink: 1, display: 'flex' }}>
+					<img src={logo} alt='logo' style={{ maxWidth: '100%', height: 'auto' }} />
 				</NavLink>
-				<Navigation />
+				<Box sx={{ display: 'flex', alignItems: 'center' }}>
+					<Navigation />
+					<BurgerMenu />
+				</Box>
 			</Box>
-			<BurgerMenu />
 			{!isInitialized && isLoading && <h1>Загрузка...</h1>}
 			{isInitialized && <Outlet />}
 		</Container>

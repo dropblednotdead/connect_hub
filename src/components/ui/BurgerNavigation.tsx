@@ -32,9 +32,6 @@ export default function BurgerMenu() {
 				onClick={toggleDrawer(true)}
 				sx={{
 					display: { md: 'none', xs: 'block' },
-					position: 'absolute',
-					top: 16,
-					right: 16,
 					bgcolor: 'transparent',
 					'&:hover': { bgcolor: 'transparent' },
 				}}

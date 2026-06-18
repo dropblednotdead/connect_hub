@@ -58,11 +58,11 @@ const Supports = ({ id, name, location, max_connections, pillar }: Props) => {
 				</Box>
 
 				{type === 'электросетевая компания' && (
-					<Box>
+					<Box sx={{ width: { xs: '100%', md: '100%', lg: 'auto' }, mt: { xs: 2, md: 2, lg: 0 } }}>
 						<CustomButton 
 							onClick={() => setIsEditModalOpen(true)}
 							sx={{ 
-								width: '180px',
+								width: { xs: '100%', md: '100%', lg: '180px' },
 								padding: '10px 20px',
 								backgroundColor: 'rgba(131, 37, 144, 0.8)', 
 								color: 'white', 

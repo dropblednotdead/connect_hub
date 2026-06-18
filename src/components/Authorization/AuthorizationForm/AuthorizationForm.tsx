@@ -31,8 +31,18 @@ const AuthorizationForm = () => {
 				username: '',
 				password: '',
 			}}
+			validate={values => {
+				const errors: any = {};
+				if (!values.username) {
+					errors.username = 'Обязательное поле';
+				}
+				if (!values.password) {
+					errors.password = 'Обязательное поле';
+				}
+				return errors;
+			}}
 			// Функция, которая будет выполняться при отправке формы
-			onSubmit={async (values, { setSubmitting }) => {
+			onSubmit={async (values, { setSubmitting, setErrors }) => {
 				// в параметрах получаем значения и функцию установки флага выполнения отправки формы
 				try {
 					// здесь происходит запрос на вход в аккаунт
@@ -59,9 +69,10 @@ const AuthorizationForm = () => {
 
 					// флаг выполнения отправки формы становится не активным
 					setSubmitting(false)
-				} catch (error) {
+				} catch (error: any) {
 					// флаг выполнения отправки формы становится не активным
 					setSubmitting(false)
+					setErrors({ username: 'Неверный логин или пароль' })
 					// выводим ошибку в консоль
 					console.error('Login failed:', error)
 				}
@@ -91,7 +102,7 @@ const AuthorizationForm = () => {
 						}}
 						placeholder='ЛОГИН'
 					/>
-					<ErrorMessage name='name' component='div' />
+					<ErrorMessage name='username' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 
 					<TextField
 						variant='standard'
@@ -107,7 +118,7 @@ const AuthorizationForm = () => {
 						}}
 						placeholder='ПАРОЛЬ'
 					/>
-					<ErrorMessage name='telephone' component='div' />
+					<ErrorMessage name='password' component='div' style={{ color: '#d32f2f', fontSize: '0.8rem', marginTop: '-20px' }} />
 
 					<NavLink to='/recover'>
 						<Typography

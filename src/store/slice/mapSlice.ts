@@ -9,6 +9,7 @@ interface State {
 	pageSize: number
 	page: number
 	focusedPillarCoords: [number, number] | null
+	highlightedConnection: { id: number, status: number } | null
 }
 
 // Объект состояния
@@ -19,6 +20,7 @@ const initialState: State = {
 	pageSize: 3,
 	page: 1,
 	focusedPillarCoords: null,
+	highlightedConnection: null,
 }
 
 // Шаблон из Redux Toolkit Query для создания хранилища с состоянием а также функциями
@@ -63,6 +65,9 @@ export const mapSlice = createSlice({
 		setFocusedPillarCoords(state, action: PayloadAction<[number, number] | null>) {
 			state.focusedPillarCoords = action.payload
 		},
+		setHighlightedConnection(state, action: PayloadAction<{ id: number, status: number } | null>) {
+			state.highlightedConnection = action.payload
+		},
 	},
 })
 
@@ -77,5 +82,6 @@ export const {
 	setConnectionLinks,
 	addConnectionLinks,
 	setFocusedPillarCoords,
+	setHighlightedConnection,
 } = mapSlice.actions
 export default mapSlice.reducer

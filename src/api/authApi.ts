@@ -66,6 +66,20 @@ export const authApi = createApi({
 				data: body,
 			}),
 		}),
+		resetPassword: builder.mutation<void, { email: string }>({
+			query: body => ({
+				url: '/auth/users/reset_password/',
+				method: 'POST',
+				data: body,
+			}),
+		}),
+		resetPasswordConfirm: builder.mutation<void, any>({
+			query: body => ({
+				url: '/auth/users/reset_password_confirm/',
+				method: 'POST',
+				data: body,
+			}),
+		}),
 	}),
 })
 
@@ -78,4 +92,6 @@ export const {
 	useGetOrganizationsQuery,
 	useLazyGetOrganizationByIdQuery,
 	useSendSupportMessageMutation,
+	useResetPasswordMutation,
+	useResetPasswordConfirmMutation,
 } = authApi

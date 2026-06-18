@@ -2,7 +2,9 @@ import { Box, Stack, Typography } from '@mui/material'
 import { TypeOrganization } from '../../../interfaces/usersInterfaces'
 import ProfileRequestButtons from './ProfileRequestButtons'
 import { formatStatus } from '../../../helpers/formatStatus'
-import { useAppSelector } from '../../../hooks/react-redux'
+import { useAppDispatch, useAppSelector } from '../../../hooks/react-redux'
+import { useNavigate } from 'react-router-dom'
+import { setHighlightedConnection } from '../../../store/slice/mapSlice'
 
 // Типизация параметров ProfileRequests
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 	type?: TypeOrganization
 	currentNameOrganization: string | string[]
 	pillarId?: number
+	connectionId?: number
 	answer?: 'pole_a_answer' | 'pole_b_answer'
 	refetchConnectionLinks?: () => void
 }
@@ -28,9 +31,12 @@ const ProfileRequests = ({
 	status,
 	type,
 	currentNameOrganization,
+	connectionId,
 	refetchConnectionLinks,
 }: Props) => {
 	const isSuperUser = useAppSelector(state => state.userSlice.user?.is_superuser)
+	const dispatch = useAppDispatch()
+	const navigate = useNavigate()
 	
 	let statusBg = 'gray'
 	let statusColor = 'white'
@@ -131,7 +137,15 @@ const ProfileRequests = ({
 						}}>
 							{statusText}
 						</Box>
-						<Typography sx={{ mt: 1, color: 'gray', textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}>
+						<Typography 
+							onClick={() => {
+								if (connectionId && status) {
+									dispatch(setHighlightedConnection({ id: connectionId, status: status }))
+									navigate('/map')
+								}
+							}}
+							sx={{ mt: 1, color: 'gray', textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}
+						>
 							Открыть опоры
 						</Typography>
 					</Box>

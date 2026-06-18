@@ -6,9 +6,10 @@ interface Params {
 	connectionLinks: IConnectionLink[]
 	pillarLink: IPillarLink
 	selectedLinks: number[]
+	customColor?: string
 }
 
-export const polylineOptions = ({ type, connectionLinks, pillarLink, selectedLinks }: Params) => {
+export const polylineOptions = ({ type, connectionLinks, pillarLink, selectedLinks, customColor }: Params) => {
 	let color = '#a0a0a0'
 
 	const findedLinks = connectionLinks.find(
@@ -21,6 +22,10 @@ export const polylineOptions = ({ type, connectionLinks, pillarLink, selectedLin
 
 	if (type === 'магистральный провайдер' && selectedLinks.some(link => link === pillarLink.id)) {
 		color = '#00CFFF'
+	}
+
+	if (customColor) {
+		color = customColor
 	}
 
 	return {

@@ -6,6 +6,7 @@ import AuthorizationPage from './pages/AuthorizationPage/AuthorizationPage'
 import MapPage from './pages/MapPage/MapPage'
 import ContactsPage from './pages/ContactsPage/ContactsPage'
 import RecoverPasswordPage from './pages/RecoverPasswordPage/RecoverPasswordPage'
+import ResetPasswordConfirmPage from './pages/ResetPasswordConfirmPage/ResetPasswordConfirmPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import AuthProvider from './components/AuthProvider/AuthProvider'
 import AboutUs from './pages/AboutUs/AboutUs'
@@ -47,6 +48,7 @@ function App() {
 				/>
 				<Route path='/contacts' element={<ContactsPage />} />
 				<Route path='/recover' element={<RecoverPasswordPage />} />
+				<Route path='/password/reset/confirm/:uid/:token' element={<ResetPasswordConfirmPage />} />
 				<Route
 					path='/profile'
 					element={

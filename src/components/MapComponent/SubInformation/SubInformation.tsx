@@ -35,10 +35,10 @@ const SubInformation = ({ type }: Props) => {
 			<Grid2
 				size={{ lg: 5, xs: 12 }}
 				sx={{
-					mt: { xs: 0, lg: 0 },
+					mt: { xs: 3, md: 3, lg: 0 },
 					display: 'flex',
 					justifyContent: { lg: 'flex-end', xs: 'start' },
-					alignItems: 'flex-start',
+					alignItems: 'center',
 				}}
 			>
 				<PlaceIcon sx={{ fontSize: 50, color: 'purple' }} />

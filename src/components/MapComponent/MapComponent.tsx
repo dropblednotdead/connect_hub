@@ -46,6 +46,7 @@ const MapComponent = ({
 
 	const mapRef = useRef<any>(null)
 	const focusedPillarCoords = useAppSelector(state => state.mapSlice.focusedPillarCoords)
+	const highlightedConnection = useAppSelector(state => state.mapSlice.highlightedConnection)
 
 	const onMapLoad = (ref: any) => {
 		if (ref) {
@@ -151,19 +152,30 @@ const MapComponent = ({
 						))}
 
 						{/* Идём по массиву и отрисовываем наши линии */}
-						{pillarLinks.map((pillarLink, index) => (
-							<Polyline
-								key={index}
-								geometry={createGeometryPolyline(pillarLink.pole_a, pillarLink.pole_b)}
-								options={polylineOptions({ connectionLinks, pillarLink, type, selectedLinks })}
-								onClick={() => {
-									// если тип = 'электросетевая компания', то выход из функции
-									if (!isSetData || type === 'электросетевая компания') return
-									// иначе вызываем функцию установки выбранных линий
-									handleSetLinks(pillarLink.id)
-								}}
-							/>
-						))}
+						{pillarLinks.map((pillarLink, index) => {
+							const isHighlighted = highlightedConnection && connectionLinks.some(cl => cl.pole_link === pillarLink.id && cl.connection?.id === highlightedConnection.id)
+							
+							let customColor = undefined;
+							if (isHighlighted) {
+								if (highlightedConnection.status === 1) customColor = '#FFA500'; // Ожидание
+								else if (highlightedConnection.status === 2) customColor = '#008000'; // Одобрено
+								else if (highlightedConnection.status === 3) customColor = '#FF0000'; // Отклонено
+							}
+
+							return (
+								<Polyline
+									key={index}
+									geometry={createGeometryPolyline(pillarLink.pole_a, pillarLink.pole_b)}
+									options={polylineOptions({ connectionLinks, pillarLink, type, selectedLinks, customColor })}
+									onClick={() => {
+										// если тип = 'электросетевая компания', то выход из функции
+										if (!isSetData || type === 'электросетевая компания') return
+										// иначе вызываем функцию установки выбранных линий
+										handleSetLinks(pillarLink.id)
+									}}
+								/>
+							)
+						})}
 					</Map>
 				</div>
 			</YMaps>

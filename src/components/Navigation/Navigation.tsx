@@ -20,7 +20,7 @@ const Navigation = () => {
 	// Box это тоже аналог div, но который лучше подходит для адаптивности
 	// NavLink это аналог тега a. Отличие его в том, что он делает переход без перезагрузки страницы
 	return (
-		<Box sx={{ display: 'flex', alignItems: 'center' }}>
+		<Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
 			<NavLink 
 				to={acceptStatus ? '/map' : '/'} 
 				className={styles.link}

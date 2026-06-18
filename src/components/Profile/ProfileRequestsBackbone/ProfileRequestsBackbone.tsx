@@ -84,6 +84,7 @@ const ProfileRequestsBackbone = ({ type }: Props) => {
 						return (
 							<Box key={connection.id} sx={{ mt: 3, mb: 3 }}>
 								<ProfileRequest
+									connectionId={connection.id}
 									street={[start.toUpperCase(), end.toUpperCase()]}
 									coords={[startCoords, endCoords]}
 									date={date}

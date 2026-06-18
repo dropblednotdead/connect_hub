@@ -34,7 +34,6 @@ const useGroupedConnectionRequests = (historyMode: boolean): Response => {
 	const [allIsLoading, setAllIsLoading] = useState(true)
 	const dispatch = useAppDispatch()
 
-	const pillars = useAppSelector(state => state.mapSlice.pillars)
 	const pillarLinks = useAppSelector(state => state.mapSlice.pillarLinks)
 	const connectionLinks = useAppSelector(state => state.mapSlice.connectionLinks)
 
@@ -46,17 +45,16 @@ const useGroupedConnectionRequests = (historyMode: boolean): Response => {
 		refetch,
 	} = useGetConnectionLinksQuery()
 
+	const pillars = (dataPillars as IPillar[]) || []
+
 	useEffect(() => {
-		if (!isLoadingPillars && dataPillars) {
-			dispatch(setPillars(dataPillars as IPillar[]))
-		}
 		if (!isLoadingPillarLinks && dataPillarLinks) {
 			dispatch(setPillarLinks(dataPillarLinks))
 		}
 		if (!isLoadingConnectionLinks && dataConnectionLinks) {
 			dispatch(setConnectionLinks(dataConnectionLinks.connection_links))
 		}
-	}, [dataPillars, dataPillarLinks, dataConnectionLinks])
+	}, [dataPillarLinks, dataConnectionLinks, dispatch])
 
 	useEffect(() => {
 		if (!isLoadingPillars && !isLoadingPillarLinks && !isLoadingConnectionLinks) {
